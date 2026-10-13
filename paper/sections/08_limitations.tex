@@ -1,0 +1,43 @@
+% =========================================================================
+\section{Limitations}
+\label{sec:limitations}
+
+\textbf{Two ledgers.} Every result is replicated on two tokens, and holding
+the window fixed removes market regime as a confound, but two ledgers cannot
+establish how widely the specification ranges of Table~\ref{tab:spec} hold
+across the asset class. The rule layer is measured on UNI only, because LINK
+has no token-weighted governance.
+
+\textbf{One window.} Ninety days include one coordinated phishing event but
+not a full market cycle.
+
+\textbf{Labels are partial, so entity resolution is a lower bound.} The
+archived compilation identifies the senders of \V{link.label_cov} (LINK) and
+\V{uni.label_cov} (UNI) of mean weekly outflow. Unidentified addresses remain
+separate participants, so entity-resolved HHIs understate concentration, and
+the core label used to train the scorer is incomplete. Merging exchange
+addresses measures custodial rather than beneficial concentration.
+
+\textbf{The label set is old.} The compilation's Ethereum labels date from
+June 2023. Being unlabelled in it mostly reflects deployment after that date
+(Section~\ref{sec:verify}), the core label used to train the scorer misses
+newer infrastructure, and the entity-resolution figures understate
+concentration by more than a current label set would.
+
+\textbf{The cleaning rule was written after the event it removes.} The dust
+airdrop rule was formulated once the LINK event had been observed. We state
+it in full, apply it unchanged to UNI (where it removes nothing), and report
+its sensitivity to $N$ and to the amount threshold (\ref{app:cleaning}); a
+rule fixed in advance would be preferable.
+
+\textbf{Balances are not time-resolved.} Balances are a single snapshot at
+the end of the window; weekly analyses use flows. The two layers are
+therefore not measured at the same instant.
+
+\textbf{Small verification samples.} The matched control compares \V{link.brokers} brokers
+with 20 controls and can exclude only large differences
+(Section~\ref{sec:control}). Verification was performed by one author.
+
+\textbf{Sampled betweenness.} Betweenness is estimated from a fixed number of
+pivots and is close to degenerate on the sparsest graphs; it enters the
+broker criterion only as a positivity condition.

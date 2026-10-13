@@ -1,0 +1,171 @@
+{
+  "label_last_scrape": "2023-06-18",
+  "cut_block": 17502962,
+  "n": 27,
+  "n_contracts": 26,
+  "n_after": 24,
+  "rows": [
+    {
+      "address": "0x09ad820aac5779683b481c4674208a4e1b024afa",
+      "deploy_block": 25016624,
+      "deploy_time": "2026-05-03 19:40:23+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x0e16d4d4281c65f37da7481c57d5d4953d64c74d",
+      "deploy_block": 24668719,
+      "deploy_time": "2026-03-16 07:58:35+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x111111125421ca6dc452d289314280a0f8842a65",
+      "deploy_block": 19212918,
+      "deploy_time": "2024-02-12 15:44:35+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x1231deb6f5749ef6ce6943a275a1d3e7486f4eae",
+      "deploy_block": 15788692,
+      "deploy_time": "2022-10-20 10:23:47+00:00",
+      "after_label_scrape": false
+    },
+    {
+      "address": "0x225a38bc71102999dd13478bfabd7c4d53f2dc17",
+      "deploy_block": 20712585,
+      "deploy_time": "2024-09-09 10:53:35+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x28b1dc1a5e3699a428bc51d234dfab7c9cb2a183",
+      "deploy_block": 24696000,
+      "deploy_time": "2026-03-20 03:24:35+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x3611b82c7b13e72b26eb0e9be0613bee7a45ac7c",
+      "deploy_block": 22475559,
+      "deploy_time": "2025-05-13 16:43:23+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x365084b05fa7d5028346bd21d842ed0601bab5b8",
+      "deploy_block": 23136985,
+      "deploy_time": "2025-08-14 04:43:35+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x399740157391a9f1bf4e9921a8834f9bc8f2678e",
+      "deploy_block": 23919821,
+      "deploy_time": "2025-12-01 16:27:59+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x4c3ccc98c01103be72bcfd29e1d2454c98d1a6e3",
+      "deploy_block": 24822976,
+      "deploy_time": "2026-04-06 20:18:35+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x50d3865a63d52c0a54e4679949647ea752107390",
+      "deploy_block": 22448324,
+      "deploy_time": "2025-05-09 20:41:47+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x603206d6105217dd972e4ab30676a220ca393346",
+      "deploy_block": 25144902,
+      "deploy_time": "2026-05-21 16:44:47+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x63242a4ea82847b20e506b63b0e2e2eff0cc6cb0",
+      "deploy_block": 23415807,
+      "deploy_time": "2025-09-22 03:11:47+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x66a9893cc07d91d95644aedd05d03f95e1dba8af",
+      "deploy_block": 21689092,
+      "deploy_time": "2025-01-23 18:49:47+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x6a000f20005980200259b80c5102003040001068",
+      "deploy_block": 20082227,
+      "deploy_time": "2024-06-13 10:12:47+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x74de5d4fcbf63e00296fd95d33236b9794016631",
+      "deploy_block": 11041725,
+      "deploy_time": "2020-10-12 16:02:15+00:00",
+      "after_label_scrape": false
+    },
+    {
+      "address": "0x7f54f05635d15cde17a49502fedb9d1803a3be8a",
+      "deploy_block": 24836284,
+      "deploy_time": "2026-04-08 16:48:11+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x818acad67efa6a1b3936bd682b5a6bc9dcd864f8",
+      "deploy_block": 24825079,
+      "deploy_time": "2026-04-07 03:20:35+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x8f10b468b06c6fd214b65f87778827f7d113f996",
+      "deploy_block": 24381446,
+      "deploy_time": "2026-02-04 05:38:11+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0x990636ecb3ff04d33d92e970d3d588bf5cd8d086",
+      "deploy_block": 24022316,
+      "deploy_time": "2025-12-16 02:55:35+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0xa03400e098f4421b34a3a44a1b4e571419517687",
+      "deploy_block": null,
+      "deploy_time": null,
+      "after_label_scrape": null
+    },
+    {
+      "address": "0xb92fe925dc43a0ecde6c8b1a2709c170ec4fff4f",
+      "deploy_block": 23733023,
+      "deploy_time": "2025-11-05 12:12:59+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0xbc1d9760bd6ca468ca9fb5ff2cfbeac35d86c973",
+      "deploy_block": 24028793,
+      "deploy_time": "2025-12-17 00:36:59+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0xc10ee9031f2a0b84766a86b55a8d90f357910fb4",
+      "deploy_block": 24417617,
+      "deploy_time": "2026-02-09 07:08:11+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0xce937da1ffd21673aa1e063459873f30189a2193",
+      "deploy_block": 24568062,
+      "deploy_time": "2026-03-02 06:46:59+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0xebe0fa42523f69ea1e97f5b08282654c19c2c0ee",
+      "deploy_block": 23039648,
+      "deploy_time": "2025-07-31 14:21:47+00:00",
+      "after_label_scrape": true
+    },
+    {
+      "address": "0xf48a3f7c0575c85cf4529aa220caf3c055773f1c",
+      "deploy_block": 24340239,
+      "deploy_time": "2026-01-29 11:34:11+00:00",
+      "after_label_scrape": true
+    }
+  ]
+}

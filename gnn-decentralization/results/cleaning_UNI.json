@@ -1,0 +1,150 @@
+{
+  "n_raw": 433856,
+  "active_raw": 38666,
+  "n_mint_burn": 1498,
+  "n_zero_value": 2376,
+  "n_airdrop_senders": 0,
+  "n_airdrop_transfers": 0,
+  "airdrop_volume": 0.0,
+  "n_clean": 429982,
+  "active_clean": 37153,
+  "active_without_airdrop_rule": 37153,
+  "active_without_zero_rule": 38666,
+  "sensitivity": [
+    {
+      "N": 100,
+      "max_amt": 0.01,
+      "senders": 2,
+      "transfers": 1946,
+      "active_clean": 36834
+    },
+    {
+      "N": 500,
+      "max_amt": 0.01,
+      "senders": 0,
+      "transfers": 0,
+      "active_clean": 37153
+    },
+    {
+      "N": 1000,
+      "max_amt": 0.01,
+      "senders": 0,
+      "transfers": 0,
+      "active_clean": 37153
+    },
+    {
+      "N": 1000,
+      "max_amt": 0.1,
+      "senders": 0,
+      "transfers": 0,
+      "active_clean": 37153
+    }
+  ],
+  "extra_senders_lowest_N": {
+    "n": 2,
+    "n_weeks": 12,
+    "n_transfers": 1946,
+    "max_week_share": 0.2533401849948613
+  },
+  "weekly": [
+    {
+      "week": 0,
+      "n_tx_raw": 24901,
+      "n_addr_raw": 4832,
+      "n_tx_clean": 24642,
+      "n_addr_clean": 4688
+    },
+    {
+      "week": 1,
+      "n_tx_raw": 33038,
+      "n_addr_raw": 5021,
+      "n_tx_clean": 32538,
+      "n_addr_clean": 4798
+    },
+    {
+      "week": 2,
+      "n_tx_raw": 27295,
+      "n_addr_raw": 4992,
+      "n_tx_clean": 27232,
+      "n_addr_clean": 4946
+    },
+    {
+      "week": 3,
+      "n_tx_raw": 26190,
+      "n_addr_raw": 4205,
+      "n_tx_clean": 26146,
+      "n_addr_clean": 4181
+    },
+    {
+      "week": 4,
+      "n_tx_raw": 16587,
+      "n_addr_raw": 4039,
+      "n_tx_clean": 16509,
+      "n_addr_clean": 3989
+    },
+    {
+      "week": 5,
+      "n_tx_raw": 19666,
+      "n_addr_raw": 4300,
+      "n_tx_clean": 19423,
+      "n_addr_clean": 4116
+    },
+    {
+      "week": 6,
+      "n_tx_raw": 41069,
+      "n_addr_raw": 5187,
+      "n_tx_clean": 40927,
+      "n_addr_clean": 5087
+    },
+    {
+      "week": 7,
+      "n_tx_raw": 27531,
+      "n_addr_raw": 4207,
+      "n_tx_clean": 27473,
+      "n_addr_clean": 4164
+    },
+    {
+      "week": 8,
+      "n_tx_raw": 32156,
+      "n_addr_raw": 5617,
+      "n_tx_clean": 31474,
+      "n_addr_clean": 4812
+    },
+    {
+      "week": 9,
+      "n_tx_raw": 28028,
+      "n_addr_raw": 5004,
+      "n_tx_clean": 28006,
+      "n_addr_clean": 4995
+    },
+    {
+      "week": 10,
+      "n_tx_raw": 34721,
+      "n_addr_raw": 5280,
+      "n_tx_clean": 34686,
+      "n_addr_clean": 5269
+    },
+    {
+      "week": 11,
+      "n_tx_raw": 73226,
+      "n_addr_raw": 6182,
+      "n_tx_clean": 73121,
+      "n_addr_clean": 6146
+    },
+    {
+      "week": 12,
+      "n_tx_raw": 47950,
+      "n_addr_raw": 5358,
+      "n_tx_clean": 47805,
+      "n_addr_clean": 5271
+    }
+  ],
+  "outlier_windows_raw": [],
+  "outlier_windows_clean": [],
+  "airdrop_only_holders": {
+    "n_addresses": 0,
+    "n_holders": 0,
+    "median_balance": null,
+    "n_below_dust_floor": 0
+  }
+}

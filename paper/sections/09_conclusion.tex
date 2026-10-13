@@ -1,0 +1,44 @@
+% =========================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+\textbf{RQ1.} The concentration verdict for a token ledger is a property of
+the measurement as much as of the ledger. Choices of address type and entity
+resolution act on the top of the distribution and move the HHI---on UNI the
+balance HHI spans a factor of \V{combo.uni.nf_hhi_ratio} over the grid of
+population, address type and entity resolution---while a balance floor acts
+on the tail and moves the Gini, and restricting to transfer-active addresses
+moves both;
+on LINK, whether a dust airdrop counts
+as activity decides whether the transfer-active population looks like all
+holders or nearly three times as concentrated; and whether repeated
+transfers are summed or overwritten changes the graph that every structural
+statistic is computed on. We recommend that on-chain concentration be
+reported as a range over stated specifications---population, address type,
+entity resolution, temporal aggregation, flow direction, cleaning rules and
+edge aggregation---rather than as a point estimate.
+
+\textbf{RQ2.} A parameterised hidden-broker criterion selects structurally
+central addresses with zero or dust balances that a widely used, and dated,
+label compilation misses; about half resolve to named routing protocols. The selected
+set depends on the cleaning specification and, through the counterparty
+condition, on degree; conditional on degree, the learned representation adds
+no detectable discriminative power beyond the counterparty condition, at a
+sample size that excludes only large differences.
+
+\textbf{RQ3.} Ownership is extremely unequal, routing is not, and the two are
+only weakly related across addresses. On the governance ledger the rule
+layer, measured in the delegated votes the protocol counts, is held by a few
+delegates who do not route the token, and it has already been used: the fee
+switch activated three months before our window changed the terms of every
+swap through a fee-enabled pool. Routing contestability on such a ledger is
+real but conditional.
+
+\paragraph{Future work}
+Approximate propagation methods \cite{wang2021agp} would allow the scorer to
+run on complete ledgers rather than activity-ranked subgraphs. The
+specification grid of Table~\ref{tab:spec} requires no model and can be
+computed for many tokens under a fixed protocol, with the tokens on which the
+rules were developed reported separately from those on which they are
+tested. Call-trace analysis could resolve the unlabelled routing contracts
+that the criterion recovers.

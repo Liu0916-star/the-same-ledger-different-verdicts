@@ -7,165 +7,165 @@
   "alignment_diag": [
     {
       "window": 2,
-      "anchors": 1344,
-      "resid_before": 62.88,
-      "resid_after": 50.28,
+      "anchors": 1309,
+      "resid_before": 59.54,
+      "resid_after": 49.98,
       "improved": true
     },
     {
       "window": 3,
-      "anchors": 1092,
-      "resid_before": 58.43,
-      "resid_after": 48.43,
+      "anchors": 1085,
+      "resid_before": 54.69,
+      "resid_after": 46.78,
       "improved": true
     },
     {
       "window": 4,
-      "anchors": 957,
-      "resid_before": 46.66,
-      "resid_after": 42.16,
+      "anchors": 955,
+      "resid_before": 46.4,
+      "resid_after": 41.94,
       "improved": true
     },
     {
       "window": 5,
-      "anchors": 850,
-      "resid_before": 44.98,
-      "resid_after": 41.42,
+      "anchors": 848,
+      "resid_before": 43.14,
+      "resid_after": 40.54,
       "improved": true
     },
     {
       "window": 6,
-      "anchors": 909,
-      "resid_before": 45.59,
-      "resid_after": 42.43,
+      "anchors": 900,
+      "resid_before": 43.3,
+      "resid_after": 40.79,
       "improved": true
     },
     {
       "window": 7,
-      "anchors": 955,
-      "resid_before": 50.03,
-      "resid_after": 43.31,
+      "anchors": 950,
+      "resid_before": 47.49,
+      "resid_after": 42.1,
       "improved": true
     },
     {
       "window": 8,
-      "anchors": 823,
-      "resid_before": 42.83,
-      "resid_after": 40.26,
+      "anchors": 819,
+      "resid_before": 42.38,
+      "resid_after": 40.05,
       "improved": true
     },
     {
       "window": 9,
-      "anchors": 864,
-      "resid_before": 48.16,
-      "resid_after": 42.58,
+      "anchors": 850,
+      "resid_before": 46.54,
+      "resid_after": 42.05,
       "improved": true
     },
     {
       "window": 10,
-      "anchors": 890,
-      "resid_before": 50.63,
-      "resid_after": 44.15,
+      "anchors": 886,
+      "resid_before": 50.75,
+      "resid_after": 44.66,
       "improved": true
     },
     {
       "window": 11,
-      "anchors": 842,
-      "resid_before": 52.48,
-      "resid_after": 43.79,
+      "anchors": 840,
+      "resid_before": 54.81,
+      "resid_after": 43.84,
       "improved": true
     },
     {
       "window": 12,
-      "anchors": 852,
-      "resid_before": 49.86,
-      "resid_after": 43.29,
+      "anchors": 849,
+      "resid_before": 53.27,
+      "resid_after": 43.64,
       "improved": true
     },
     {
       "window": 13,
-      "anchors": 809,
-      "resid_before": 52.23,
-      "resid_after": 43.08,
+      "anchors": 806,
+      "resid_before": 53.39,
+      "resid_after": 42.6,
       "improved": true
     }
   ],
   "alignment_ok": "12/12",
-  "min_anchors": 809,
+  "min_anchors": 806,
   "n_persistent_elite": 53,
   "elite_drift": [
     {
       "from": 1,
       "to": 2,
-      "drift": 1.6281,
+      "drift": 1.7063,
       "is_outlier": false
     },
     {
       "from": 2,
       "to": 3,
-      "drift": 1.646,
+      "drift": 1.7097,
       "is_outlier": false
     },
     {
       "from": 3,
       "to": 4,
-      "drift": 1.6341,
+      "drift": 1.5619,
       "is_outlier": false
     },
     {
       "from": 4,
       "to": 5,
-      "drift": 1.4,
+      "drift": 1.3839,
       "is_outlier": false
     },
     {
       "from": 5,
       "to": 6,
-      "drift": 1.4466,
+      "drift": 1.3294,
       "is_outlier": false
     },
     {
       "from": 6,
       "to": 7,
-      "drift": 1.5526,
+      "drift": 1.3935,
       "is_outlier": false
     },
     {
       "from": 7,
       "to": 8,
-      "drift": 1.4546,
+      "drift": 1.3196,
       "is_outlier": false
     },
     {
       "from": 8,
       "to": 9,
-      "drift": 1.1849,
+      "drift": 1.2009,
       "is_outlier": false
     },
     {
       "from": 9,
       "to": 10,
-      "drift": 1.4788,
+      "drift": 1.5408,
       "is_outlier": false
     },
     {
       "from": 10,
       "to": 11,
-      "drift": 1.3286,
+      "drift": 1.2338,
       "is_outlier": false
     },
     {
       "from": 11,
       "to": 12,
-      "drift": 1.637,
+      "drift": 1.5047,
       "is_outlier": false
     },
     {
       "from": 12,
       "to": 13,
-      "drift": 1.6815,
+      "drift": 1.5188,
       "is_outlier": false
     }
   ],
-  "normal_drift_mean": 1.5061
+  "normal_drift_mean": 1.4503
 }

@@ -1,0 +1,68 @@
+{
+  "control_seed": 20260827,
+  "cex_as_named": true,
+  "n_matched": 20,
+  "n_uniform": 10,
+  "n_broker_anchor": 8,
+  "tokens": [
+    "LINK"
+  ],
+  "design": "counterparty-matched control from the same eligibility pool; blind manual verification",
+  "results": {
+    "LINK": {
+      "broker_all": [
+        11,
+        22
+      ],
+      "ci95_clopper_pearson": {
+        "broker_all": [
+          0.2822,
+          0.7178
+        ],
+        "matched": [
+          0.2306,
+          0.6847
+        ],
+        "uniform": [
+          0.0667,
+          0.6525
+        ],
+        "broker_anchor_blind": [
+          0.2449,
+          0.9148
+        ]
+      },
+      "p_matched_gt_uniform": 0.35002,
+      "anchor_agreement": [
+        8,
+        8
+      ],
+      "diff_broker_minus_matched": 0.05,
+      "min_detectable_diff_80pct_power": 0.41,
+      "design": {
+        "pool_size": 1185,
+        "pool_median_cp": 7.0,
+        "broker_median_cp": 92.0
+      },
+      "diff_ci95_newcombe": [
+        -0.2335,
+        0.3219
+      ],
+      "broker_anchor_blind": [
+        5,
+        8
+      ],
+      "matched": [
+        9,
+        20
+      ],
+      "uniform": [
+        3,
+        10
+      ],
+      "odds_ratio": 1.222,
+      "p_value": 0.49423,
+      "verdict": "not significant: among degree-matched addresses the criterion adds no detectable discrimination"
+    }
+  }
+}

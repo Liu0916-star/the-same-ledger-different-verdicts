@@ -1,43 +1,49 @@
 # -*- coding: utf-8 -*-
 """
-11_random_control.py —— 随机对照组：排除隐藏经纪人核验的循环偏倚
+11_random_control.py -- matched control for the hidden-broker verification (Section 5.4)
 
-问题
-----
-论文第 5.5 节报告"经纪人中 33%（LINK）/ 39%（UNI）可核验为具名路由协议"。
-但这 36 个地址【全部是 GNN 选出来的】，我们只查了它选中的那些。审稿人必然
-会问：你怎么知道这个比例高于随便挑的？承认偏倚不等于排除偏倚。
+Problem
+-------
+The share of hidden brokers that resolve to named routing protocols is measured
+only on addresses the criterion selected. Acknowledging that circularity does
+not rule it out: is the share higher than for comparable addresses it did not
+select?
 
-设计
-----
-从【同一资格池】（无标签 & 对手方 ≥5 & 介数 >0 & 余额 ≤中位）中抽取未被
-GNN 选中的地址作对照，人工核验后比较具名路由协议的占比。
+Design
+------
+Controls are drawn from the same eligibility pool as the brokers (unlabelled,
+counterparties >= 5, betweenness > 0, balance <= median) but not selected by the
+criterion; after manual verification the share of named routing protocols is
+compared.
 
-★ 两个必须避开的陷阱：
+Two traps are avoided:
 
-  1. 朴素均匀抽样会使检验失去意义。经纪人按分数选出，而分数与对手方数
-     强相关，均匀抽样得到的对照组度数远低于经纪人组，于是"经纪人更像
-     路由器"退化为"度数高的节点是路由器"——与 GNN 无关的同义反复。
-     因此主检验采用【按对手方数配对】的对照组：为每个经纪人匹配一个
-     对手方数最接近的非经纪人。两组度数分布对齐，差异只能归因于嵌入。
-     朴素随机组一并报告，作为对照的对照。
+  1. Uniform sampling would make the test meaningless. The score is strongly
+     correlated with counterparty count, so a uniform control has far lower
+     degree than the brokers, and "brokers look like routers" would reduce to
+     "high-degree nodes are routers". The main test therefore uses a control
+     matched on counterparty count: each broker is paired with the non-broker
+     whose count is closest. The uniform group is reported as well.
 
-  2. 核验时若知道谁是经纪人，判断会被无意识影响。因此输出一份打乱顺序、
-     不含分组标签的盲测清单，分组信息另存于 key 文件，核验完成前不要打开。
+  2. Knowing which address is a broker could bias the verifier. The script
+     writes a shuffled blind list without group labels; the groups are kept in a
+     key file that must not be opened before verification is complete.
 
-用法
-----
-    python 11_random_control.py sample          # 抽样并生成盲测清单
-    #  → 人工在 Etherscan 逐个核验，填写 control_blind.csv 的两列
-    python 11_random_control.py score           # 揭盲、统计、Fisher 检验
+Usage
+-----
+    python 11_random_control.py sample          # draw the sample, write the blind list
+    #  -> verify each address on Etherscan and fill in control_blind_v2.csv
+    python 11_random_control.py score           # unblind, count, Fisher test
 
-输出
-----
-    verification/control_blind.csv   盲测清单（人工填写）
-    verification/control_key.csv     分组答案（核验前勿看）
-    results/random_control.json      检验结果
+Output
+------
+    verification/control_blind_v2.csv   blind list (filled in by hand; v1's is in verification/v1/)
+    verification/control_key_v2.csv     group key (do not open before verification)
+    results/random_control.json         test results
 """
 import sys
+
+import importlib
 
 import numpy as np
 import pandas as pd
@@ -47,51 +53,71 @@ import common as cm
 
 SCRIPT = "11_random_control"
 VDIR = C.ROOT / "verification"
-BLIND = VDIR / "control_blind.csv"
-KEY = VDIR / "control_key.csv"
+# v2: the new sample goes to *_v2.csv; the v1 records (v1/control_blind.csv and
+# broker_identities.csv) are read-only and reused as verified identities. The blind
+# list holds only addresses without a record, plus calibration anchors.
+BLIND = VDIR / "control_blind_v2.csv"
+KEY = VDIR / "control_key_v2.csv"
+KNOWN = VDIR / "known_identities_v2.csv"       # reused existing records (not in the blind list)
+V1_RECORDS = (VDIR / "broker_identities.csv", VDIR / "v1" / "control_blind.csv")
 
-# ---------------------------------------------------------------- 抽样规模
-# 核验是人工的，清单大小直接决定这个实验做不做得完。按功效倒推：
-# Fisher 单侧检验，效应量 35% vs 5% 时每组 n=20 即可达 p<0.05（n=15 不够）；
-# 若对照命中率高到 15%，则需每组 n=40，那已超出一晚能完成的量。
-# 因此预先固定 n=20 并如实报告结果，不做"看了结果再加样本"的事后扩容。
-CONTROL_TOKENS = ("LINK",)     # 主账本。两个都做则核验量翻倍
-N_MATCHED = 20                 # 度数配对对照 —— 主检验
-N_UNIFORM = 10                 # 朴素随机对照 —— 说明度数混杂，非主检验
-N_BROKER_ANCHOR = 8            # 混入的经纪人锚点 —— 校准盲测判准是否漂移
-CONTROL_SEED = 20260827        # ★ 写死，与主管线的 SEEDS 无关，便于复现
 
-# ★ 不能包含空串：str.startswith(("",...)) 恒为 True，会把所有身份判为未识别。
-#   空值另行单独判断。
+def known_records() -> pd.DataFrame:
+    """Addresses verified in v1 -> identity. The two files differ in columns; both
+    become address / verified_identity / evidence."""
+    out = []
+    for p in V1_RECORDS:
+        if not p.exists():          # a missing record file would silently change the known identities
+            raise FileNotFoundError(p)
+        d = pd.read_csv(p)
+        d.columns = [c.strip().lstrip("\ufeff") for c in d.columns]
+        d["address"] = d["address"].astype(str).str.strip().str.lower()
+        d["source"] = p.name
+        out.append(d[["address", "verified_identity", "evidence", "source"]])
+    k = pd.concat(out).dropna(subset=["verified_identity"])
+    return k.drop_duplicates("address", keep="first")
+
+# ---------------------------------------------------------------- sample size
+# Verification is manual, so the list size decides whether the experiment can be
+# done at all. From the power calculation: a one-sided Fisher test detects 35% vs
+# 5% at p < 0.05 with n = 20 per group (n = 15 is not enough); a control rate of
+# 15% would need n = 40. n = 20 is fixed in advance and the result is reported as
+# it is; no samples are added after looking at the result.
+CONTROL_TOKENS = ("LINK",)     # main ledger; both would double the verification work
+N_MATCHED = 20                 # degree-matched control -- the main test
+N_UNIFORM = 10                 # uniform control -- shows the degree confound; not the main test
+N_BROKER_ANCHOR = 8            # broker anchors mixed in -- checks the verifier's criterion in the blind
+CONTROL_SEED = 20260827        # fixed, independent of the pipeline's SEEDS, for reproducibility
+
+# must not contain "": str.startswith(("", ...)) is always True and would mark every
+# identity as unidentified. Empty values are handled separately.
 GENERIC = ("unlabelled", "unlabeled", "unknown", "suspected", "mev",
            "fake_phishing", "compromised", "nan")
+# v2 (fixed before unblinding): deposit and hot wallets of centralised exchanges are
+# not routing protocols. The verification instructions put them under "Unknown"
+# (as the verifier did for HTX 48); a Gate.io deposit address was entered by name,
+# so the rule makes the treatment uniform. The result scored as entered is also
+# reported (--cex-as-named).
+CEX_PREFIXES = ("gate dep", "htx", "binance", "coinbase", "kraken", "kucoin",
+                "bybit", "bitfinex", "huobi")
+CEX_AS_NAMED = "--cex-as-named" in sys.argv
 
 
 def ensemble_score(token, scale="1w"):
-    """用 05 缓存的多种子嵌入重算排名集成分。与 09_verify_gap 同一实现。"""
-    from sklearn.linear_model import LogisticRegression
+    """Rank-ensemble score, using the same functions as 05_c3_roles (cached
+    embeddings -> standardise -> logistic regression -> mean rank)."""
     from sklearn.preprocessing import StandardScaler
-    from scipy.stats import rankdata
+    R5 = importlib.import_module("05_c3_roles")
     d = np.load(C.RESULTS / f"graph_{token}_{scale}.npz", allow_pickle=True)
-    y = cm.is_core_mask(d["cat"]).astype(int)
-    scores = []
-    for sd in C.BROKER_CONSENSUS_SEEDS:
-        f = C.RESULTS / f"emb_{token}_{scale}_s{sd}.npy"
-        if not f.exists():
-            continue
-        e = StandardScaler().fit_transform(np.load(f))
-        clf = LogisticRegression(max_iter=1000, class_weight="balanced")
-        clf.fit(e, y)
-        scores.append(clf.predict_proba(e)[:, 1])
-    if not scores:
-        return None, d, 0
-    n = len(scores[0])
-    r = np.mean([rankdata(x) / n for x in scores], axis=0)
-    return r, d, len(scores)
+    F = C.FEATURE_NAMES
+    bal, cp, bet = (d["feat"][:, F.index(x)] for x in ("balance", "counterparties", "betweenness"))
+    scores = [R5._brokers_from_emb(StandardScaler().fit_transform(e), bal, cp, bet, d["cat"])[2]
+              for e in R5._multi_seed_embs(token, scale, d)]
+    return R5._rank_ensemble(scores), d, len(scores)
 
 
 def eligibility(d):
-    """资格池：与 config 中经纪人定义完全一致，唯独不含分数条件。"""
+    """Eligibility pool: the broker definition of config without the score condition."""
     F = C.FEATURE_NAMES
     bal = d["feat"][:, F.index("balance")]
     cp = d["feat"][:, F.index("counterparties")]
@@ -106,10 +132,9 @@ def eligibility(d):
 
 
 def matched_sample(broker_cp, pool_idx, pool_cp, n, rng):
-    """为每个经纪人匹配对手方数最接近的非经纪人（不放回）。
-
-    ★ 这是主检验的对照组。度数对齐后，两组差异不能再用"度数不同"解释。
-    """
+    """Pair each broker with the non-broker of closest counterparty count (without
+    replacement). This is the control of the main test: with degree aligned, a
+    difference between groups cannot be explained by degree."""
     avail = list(pool_idx)
     avail_cp = {i: pool_cp[k] for k, i in enumerate(pool_idx)}
     targets = rng.permutation(broker_cp)[:n]
@@ -124,18 +149,18 @@ def matched_sample(broker_cp, pool_idx, pool_cp, n, rng):
 
 
 def do_sample():
-    cm.banner("11 · 随机对照组抽样")
+    cm.banner("11 · drawing the control sample")
     rng = np.random.default_rng(CONTROL_SEED)
     rows = []
     for token in CONTROL_TOKENS:
         gp = C.RESULTS / f"graph_{token}_1w.npz"
         bp = C.RESULTS / f"hidden_brokers_{token}.csv"
         if not (gp.exists() and bp.exists()):
-            print(f"  [X] 缺 {gp.name} 或 {bp.name}，先跑 01/05")
+            print(f"  [X] {gp.name} or {bp.name} missing; run 01 and 05 first")
             return
         sc, d, n_emb = ensemble_score(token)
         if sc is None:
-            print(f"  [X] {token} 缺 emb_*_s*.npy，先跑 05_c3_roles.py")
+            print(f"  [X] {token}: emb_*_s*.npy missing; run 05_c3_roles.py first")
             return
         nodes = [str(x).lower() for x in d["nodes"]]
         elig, bal, cp, bet = eligibility(d)
@@ -144,32 +169,33 @@ def do_sample():
 
         pool = np.flatnonzero(elig & ~is_broker)
         bidx = np.flatnonzero(is_broker)
-        print(f"\n  {token}: 用 {n_emb} 份嵌入重算集成分")
-        print(f"    资格池 {int(elig.sum()):,} | 其中经纪人 {len(bidx)} | "
-              f"可抽对照 {len(pool):,}")
-        print(f"    经纪人对手方 中位 {np.median(cp[bidx]):.0f} "
+        print(f"\n  {token}: ensemble score recomputed from {n_emb} embeddings")
+        print(f"    pool {int(elig.sum()):,} | brokers {len(bidx)} | "
+              f"available controls {len(pool):,}")
+        print(f"    broker counterparties median {np.median(cp[bidx]):.0f} "
               f"[{cp[bidx].min():.0f}, {cp[bidx].max():.0f}]")
-        print(f"    资格池对手方 中位 {np.median(cp[pool]):.0f} "
+        print(f"    pool counterparties median {np.median(cp[pool]):.0f} "
               f"[{cp[pool].min():.0f}, {cp[pool].max():.0f}]")
         if np.median(cp[pool]) < np.median(cp[bidx]) / 2:
-            print(f"    ★ 两者度数分布差异大 —— 正是需要配对抽样的原因")
+            print("    the degree distributions differ a lot -- which is why the control is matched")
 
         m_idx = matched_sample(cp[bidx], pool, cp[pool],
                                min(N_MATCHED, len(pool)), rng)
         remain = np.setdiff1d(pool, m_idx)
         u_idx = rng.choice(remain, size=min(N_UNIFORM, len(remain)),
                            replace=False)
-        # ★ 经纪人只抽一部分混入盲测清单。它们的身份已在主核验中确定，
-        #   这里的作用是校准：若盲测下的经纪人命中率与已知值接近，
-        #   说明判准没有因为"知道整份清单都是对照"而收紧。
+        # Only some brokers are mixed into the blind list. Their identities are
+        # already known; they calibrate the verifier: if the blind hit rate on them
+        # is close to the known rate, the criterion did not tighten because the
+        # verifier expected a list of controls.
         a_idx = rng.choice(bidx, size=min(N_BROKER_ANCHOR, len(bidx)),
                            replace=False)
 
-        print(f"    配对对照 {len(m_idx)} 个，对手方中位 "
-              f"{np.median(cp[m_idx]):.0f}  ← 与经纪人对齐")
-        print(f"    随机对照 {len(u_idx)} 个，对手方中位 "
+        print(f"    matched controls {len(m_idx)}, counterparties median "
+              f"{np.median(cp[m_idx]):.0f}  <- aligned with the brokers")
+        print(f"    uniform controls {len(u_idx)}, counterparties median "
               f"{np.median(cp[u_idx]):.0f}")
-        print(f"    经纪人锚点 {len(a_idx)} 个（校准用）")
+        print(f"    broker anchors {len(a_idx)} (calibration)")
 
         for grp, idx in (("broker_anchor", a_idx), ("matched", m_idx),
                          ("uniform", u_idx)):
@@ -180,32 +206,78 @@ def do_sample():
                              "betweenness": round(float(bet[i]), 6),
                              "score_pct": round(float(sc[i]), 4)})
 
-    key = pd.DataFrame(rows).drop_duplicates(subset=["token", "address"])
-    key.to_csv(KEY, index=False)
+    # brokers of either token without a verification record also go into the blind list (group broker_new)
+    known = known_records()
+    kset = set(known["address"])
+    for token in C.TOKENS:
+        bp = C.RESULTS / f"hidden_brokers_{token}.csv"
+        bdf = pd.read_csv(bp)
+        for r in bdf.itertuples():
+            a = str(r.address).lower()
+            if a not in kset:
+                rows.append({"token": token, "group": "broker_new", "address": a,
+                             "counterparties": int(r.counterparties),
+                             "betweenness": round(float(r.betweenness), 6),
+                             "score_pct": round(float(r.ensemble_score), 4)})
 
-    blind = key.sample(frac=1.0, random_state=CONTROL_SEED)[
+    key = pd.DataFrame(rows).drop_duplicates(subset=["token", "address"])
+    key["has_v1_record"] = key["address"].isin(kset)
+    key.to_csv(KEY, index=False)
+    # anchors must be in the blind list (calibration); other groups only where no record exists
+    need = key[(key["group"] == "broker_anchor") | ~key["has_v1_record"]]
+    need = need.drop_duplicates("address")
+    blind = need.sample(frac=1.0, random_state=CONTROL_SEED)[
         ["address", "counterparties"]].copy()
     blind["verified_identity"] = ""
     blind["evidence"] = ""
     blind.to_csv(BLIND, index=False)
+    known[known["address"].isin(set(key["address"]))].to_csv(KNOWN, index=False)
+    print(f"  existing records reused: {int(key['has_v1_record'].sum())} (not in the blind list, except anchors)"
+          f" → {KNOWN.name}")
 
-    cm.banner("抽样完成", "-")
-    print(f"  → {BLIND.name}  {len(blind)} 个地址（已打乱，不含分组）")
-    print(f"  → {KEY.name}    ★ 核验完成前请勿打开")
-    print(f"\n  核验方式：Etherscan 地址页看 Name Tag → ERC-20 Token Transfers")
-    print(f"  标签页 → Contract 标签页。填 verified_identity 一列：")
-    print(f"    · 能确认归属某协议 → 写协议名（如 '1inch: Router V6'）")
-    print(f"    · 无标签但对手方为 DEX 池/聚合器 → 'Unlabelled routing contract'")
-    print(f"    · 高频套利模式 → 'MEV Bot'")
-    print(f"    · 其他 → 'Unknown'")
-    print(f"\n  填完执行：python 11_random_control.py score")
+    cm.banner("sample drawn", "-")
+    print(f"  → {BLIND.name}  {len(blind)} addresses (shuffled, no groups)")
+    print(f"  → {KEY.name}    do not open before verification is complete")
+    print("\n  How to verify: on the Etherscan address page check the name tag, then the")
+    print("  ERC-20 Token Transfers tab, then the Contract tab. Fill in verified_identity:")
+    print("    · belongs to a protocol -> protocol name (e.g. '1inch: Router V6')")
+    print("    · no tag but counterparties are DEX pools / aggregators -> 'Unlabelled routing contract'")
+    print("    · high-frequency arbitrage pattern -> 'MEV Bot'")
+    print("    · anything else -> 'Unknown'")
+    print("\n  Then run: python 11_random_control.py score")
     cm.log_metric(SCRIPT, "BOTH", "n_blind", len(blind))
 
 
+def _design_stats(token, bset):
+    """Median counterparties of the pool and of the brokers (reads the graph file; no resampling)."""
+    d = np.load(C.RESULTS / f"graph_{token}_1w.npz", allow_pickle=True)
+    nodes = np.array([str(x).lower() for x in d["nodes"]])
+    elig, _, cp, _ = eligibility(d)
+    isb = np.isin(nodes, list(bset))
+    return {"pool_size": int(elig.sum()), "pool_median_cp": float(np.median(cp[elig & ~isb])),
+            "broker_median_cp": float(np.median(cp[isb]))}
+
+
+def _min_detectable(n1, n2, p0, alpha=0.05, power=0.8, sims=2000, seed=CONTROL_SEED):
+    """One-sided Fisher test: smallest difference in proportions detectable with the
+    given power when the control proportion is p0 (by simulation)."""
+    from scipy.stats import fisher_exact
+    rng = np.random.default_rng(seed)
+    for d in np.arange(0.05, 1 - p0 + 1e-9, 0.01):
+        p1 = p0 + d
+        hits = 0
+        for _ in range(sims):
+            a, c = rng.binomial(n1, p1), rng.binomial(n2, p0)
+            hits += fisher_exact([[a, n1 - a], [c, n2 - c]], alternative="greater")[1] < alpha
+        if hits / sims >= power:
+            return round(float(d), 2)
+    return None
+
+
 def do_score():
-    cm.banner("11 · 揭盲与统计检验")
+    cm.banner("11 · unblinding and tests")
     if not (BLIND.exists() and KEY.exists()):
-        print(f"  [X] 缺 {BLIND.name} 或 {KEY.name}，先跑 sample 模式")
+        print(f"  [X] {BLIND.name} or {KEY.name} missing; run the sample mode first")
         return
     b = pd.read_csv(BLIND)
     k = pd.read_csv(KEY)
@@ -214,13 +286,20 @@ def do_score():
     n_blank = b["verified_identity"].isna().sum() + \
         (b["verified_identity"].astype(str).str.strip() == "").sum()
     if n_blank:
-        print(f"  [!] {n_blank} 行身份列为空，这些行将计为未识别。")
-        print(f"      若尚未核验完，请先补齐再跑，否则会低估两组的比例。")
-    m = k.merge(b[["address", "verified_identity", "evidence"]],
-                on="address", how="left")
+        print(f"  [!] {n_blank} rows have an empty identity and count as unidentified.")
+        print("      If verification is not finished, complete it first or both shares are understated.")
+    kn = pd.read_csv(KNOWN) if KNOWN.exists() else pd.DataFrame(
+        columns=["address", "verified_identity", "evidence"])
+    kn["address"] = kn["address"].astype(str).str.lower()
+    ident = pd.concat([b[["address", "verified_identity", "evidence"]],
+                       kn[~kn["address"].isin(set(b["address"]))][
+                           ["address", "verified_identity", "evidence"]]])
+    m = k.merge(ident, on="address", how="left")
 
     def is_named(v):
         t = str(v).strip().lower()
+        if not CEX_AS_NAMED and t.startswith(CEX_PREFIXES):
+            return False
         return bool(t) and not t.startswith(GENERIC)
 
     m["named"] = m["verified_identity"].map(is_named)
@@ -231,8 +310,8 @@ def do_score():
     for token in CONTROL_TOKENS:
         sub = m[m["token"] == token]
         cm.banner(f"{token}", "-")
-        print(f"    {'组':<16}{'n':>5}{'具名协议':>10}{'占比':>9}"
-              f"{'中位对手方':>12}")
+        print(f"    {'group':<16}{'n':>5}{'named':>10}{'share':>9}"
+              f"{'median cp':>12}")
         stat = {}
         for g in ("broker_anchor", "matched", "uniform"):
             d = sub[sub["group"] == g]
@@ -243,49 +322,90 @@ def do_score():
             print(f"    {g:<16}{len(d):>5}{hit:>10}{hit / len(d):>8.0%}"
                   f"{d['counterparties'].median():>12.0f}")
 
-        # ---- 主检验用【全部已核验经纪人】，而非 8 个盲测锚点 ----
-        vp = VDIR / "broker_identities.csv"
-        bfull = None
-        if vp.exists():
-            vb = pd.read_csv(vp)
-            vb.columns = [c.strip().lstrip("\ufeff") for c in vb.columns]
-            ac = next(c for c in vb.columns if "addr" in c.lower())
-            ic = next((c for c in vb.columns if c.lower() in
-                       ("verified_identity", "identity", "name", "label")),
-                      None)
-            bp = C.RESULTS / f"hidden_brokers_{token}.csv"
-            bset = set(pd.read_csv(bp)["address"].astype(str).str.lower())
-            vb[ac] = vb[ac].astype(str).str.strip().str.lower()
-            vsub = vb[vb[ac].isin(bset)]
-            nh = int(vsub[ic].map(is_named).sum()) if ic else 0
-            bfull = (nh, len(bset))
-            print(f"    {'broker (all)':<16}{len(bset):>5}{nh:>10}"
-                  f"{nh / max(len(bset), 1):>8.0%}{'':>12}")
-            if "broker_anchor" in stat:
-                ah, an = stat["broker_anchor"]
-                d_ = abs(ah / max(an, 1) - nh / max(len(bset), 1))
-                print(f"\n    [校准] 盲测锚点命中率 {ah / max(an,1):.0%} vs "
-                      f"已知全集 {nh / max(len(bset),1):.0%}，差 {d_:.0%}")
-                print(f"      {'判准未漂移 ✓' if d_ <= 0.15 else '[!] 差异较大，盲测下判准可能收紧，解读结果时需谨慎'}")
+        # ---- the main test uses all verified brokers, not the 8 blind anchors ----
+        # broker identities: the v2 blind result first, then the v1 records
+        bp = C.RESULTS / f"hidden_brokers_{token}.csv"
+        bset = set(pd.read_csv(bp)["address"].astype(str).str.lower())
+        # all v1 records + v2 blind results (blind first); known_identities_v2.csv holds only sampled addresses
+        allk = known_records()
+        imap = dict(zip(allk["address"], allk["verified_identity"]))
+        imap.update(dict(zip(b["address"], b["verified_identity"])))
+        missing = [a for a in bset if a not in imap]
+        if missing:
+            print(f"    [!] {len(missing)} brokers have no identity record; counted as unidentified")
+        nh = int(sum(is_named(imap.get(a, "")) for a in bset))
+        bfull = (nh, len(bset))
+        print(f"    {'broker (all)':<16}{len(bset):>5}{nh:>10}"
+              f"{nh / max(len(bset), 1):>8.0%}{'':>12}")
+        if "broker_anchor" in stat:
+            ah, an = stat["broker_anchor"]
+            d_ = abs(ah / max(an, 1) - nh / max(len(bset), 1))
+            print(f"\n    [calibration] blind anchors {ah / max(an,1):.0%} vs "
+                  f"all known brokers {nh / max(len(bset),1):.0%}, difference {d_:.0%}")
+            print(f"      {'criterion stable ✓' if d_ <= 0.15 else '[!] large difference: the criterion may have tightened in the blind'}")
 
         if bfull and "matched" in stat:
             bh, bn = bfull
             mh, mn = stat["matched"]
             tab = [[bh, bn - bh], [mh, mn - mh]]
             odds, p = fisher_exact(tab, alternative="greater")
-            print(f"\n    [主检验] 经纪人 vs 度数配对对照")
-            print(f"      Fisher 精确检验（单侧）: OR = "
+            print("\n    [main test] brokers vs degree-matched control")
+            print(f"      Fisher exact test (one-sided): OR = "
                   f"{odds if np.isfinite(odds) else float('inf'):.2f}, "
                   f"p = {p:.4f}")
-            verdict = ("循环偏倚被排除：在度数相同的地址中，GNN 选出的"
-                       "具名路由协议显著更多"
+            verdict = ("circularity ruled out: among degree-matched addresses the "
+                       "criterion selects significantly more named routing protocols"
                        if p < 0.05 else
-                       "未达显著：在度数相同的地址中，GNN 的筛选没有可检出的增量")
+                       "not significant: among degree-matched addresses the criterion "
+                       "adds no detectable discrimination")
             print(f"      → {verdict}")
             if p >= 0.05 and min(bn, mn) < 30:
-                print(f"      [i] 样本偏小（n={min(bn, mn)}），"
-                      f"不显著可能是功效不足而非无效应")
+                print(f"      [i] small sample (n={min(bn, mn)}): a non-significant result"
+                      " may reflect low power rather than no effect")
+            from scipy.stats import beta as _beta
+
+            def cp_ci(k, n):
+                lo = 0.0 if k == 0 else float(_beta.ppf(0.025, k, n - k + 1))
+                hi = 1.0 if k == n else float(_beta.ppf(0.975, k + 1, n - k))
+                return [round(lo, 4), round(hi, 4)]
+            import math
+
+            def _wilson(k, n, z=1.959964):
+                q = k / n
+                d = 1 + z * z / n
+                c = q + z * z / (2 * n)
+                r = z * math.sqrt(q * (1 - q) / n + z * z / (4 * n * n))
+                return (c - r) / d, (c + r) / d
+            # Newcombe (hybrid Wilson) interval for the difference in proportions
+            q1, q2 = bh / bn, mh / mn
+            l1, u1 = _wilson(bh, bn)
+            l2, u2 = _wilson(mh, mn)
+            diff_ci = [round(q1 - q2 - math.sqrt((q1 - l1) ** 2 + (u2 - q2) ** 2), 4),
+                       round(q1 - q2 + math.sqrt((u1 - q1) ** 2 + (q2 - l2) ** 2), 4)]
+            print(f"    [difference] broker − matched = {q1 - q2:+.3f}, 95% CI {diff_ci}")
+            uh, un = stat.get("uniform", (0, 0))
+            p_mu = float(fisher_exact([[mh, mn - mh], [uh, un - uh]],
+                                      alternative="greater")[1]) if un else None
+            anc = sub[sub["group"] == "broker_anchor"]
+            allk = known_records()
+            v1map = dict(zip(allk["address"], allk["verified_identity"]))
+            agree = int(sum(is_named(r.verified_identity) == is_named(v1map.get(r.address, ""))
+                            for r in anc.itertuples()))
+            print(f"    [matched vs uniform] one-sided p = {p_mu:.4f}" if p_mu is not None else "")
+            print(f"    [anchor agreement] blind result agrees with the record {agree}/{len(anc)}")
             out[token] = {"broker_all": bfull,
+                          "ci95_clopper_pearson": {
+                              "broker_all": cp_ci(*bfull),
+                              "matched": cp_ci(*stat["matched"]),
+                              "uniform": cp_ci(*stat["uniform"]) if "uniform" in stat else None,
+                              "broker_anchor_blind": cp_ci(*stat["broker_anchor"])
+                              if "broker_anchor" in stat else None},
+                          "p_matched_gt_uniform": None if p_mu is None else round(p_mu, 5),
+                          "anchor_agreement": [agree, int(len(anc))],
+                          "diff_broker_minus_matched": round(q1 - q2, 4),
+                          "min_detectable_diff_80pct_power": _min_detectable(bn, mn, mh / mn),
+                          "design": _design_stats(token, bset),
+                          "diff_ci95_newcombe": diff_ci,
                           "broker_anchor_blind": stat.get("broker_anchor"),
                           "matched": stat.get("matched"),
                           "uniform": stat.get("uniform"),
@@ -295,13 +415,15 @@ def do_score():
                           "verdict": verdict}
 
     cm.save_json({"control_seed": CONTROL_SEED,
+                  "cex_as_named": CEX_AS_NAMED,
                   "n_matched": N_MATCHED, "n_uniform": N_UNIFORM,
                   "n_broker_anchor": N_BROKER_ANCHOR,
                   "tokens": list(CONTROL_TOKENS),
                   "design": "counterparty-matched control from the same "
                             "eligibility pool; blind manual verification",
-                  "results": out}, "random_control.json")
-    cm.banner("完成。把 results/random_control.json 的数字写进 C3")
+                  "results": out},
+                 "random_control_cex_as_named.json" if CEX_AS_NAMED else "random_control.json")
+    cm.banner("Done → results/random_control.json")
 
 
 def main():
@@ -311,7 +433,7 @@ def main():
     elif mode == "score":
         do_score()
     else:
-        print("用法: python 11_random_control.py [sample|score]")
+        print("usage: python 11_random_control.py [sample|score]")
 
 
 if __name__ == "__main__":

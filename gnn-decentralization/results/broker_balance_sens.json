@@ -1,0 +1,38 @@
+{
+  "LINK": {
+    "median_balance": 1.44240650404145e-05,
+    "zero_share": 0.423053024026512,
+    "dust_share": 0.6347348798674399,
+    "median": {
+      "size": 22,
+      "overlap_main": 22
+    },
+    "zero": {
+      "size": 10,
+      "overlap_main": 10
+    },
+    "dust": {
+      "size": 25,
+      "overlap_main": 22
+    },
+    "main_brokers_zero_balance": 10
+  },
+  "UNI": {
+    "median_balance": 0.0,
+    "zero_share": 0.5234112006528614,
+    "dust_share": 0.6844843415281037,
+    "median": {
+      "size": 9,
+      "overlap_main": 9
+    },
+    "zero": {
+      "size": 9,
+      "overlap_main": 9
+    },
+    "dust": {
+      "size": 21,
+      "overlap_main": 9
+    },
+    "main_brokers_zero_balance": 9
+  }
+}

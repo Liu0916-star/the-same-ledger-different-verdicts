@@ -1,0 +1,96 @@
+{
+  "token": "LINK",
+  "scale": "1w",
+  "n_nodes": 9656,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "n_anchors": 74,
+  "gnn_input": [
+    "in_deg",
+    "out_deg",
+    "in_deg_w",
+    "out_deg_w",
+    "counterparties",
+    "pagerank",
+    "betweenness"
+  ],
+  "cv": "StratifiedKFold(5,shuffle=True,seed=42)",
+  "preprocessing": "drop balance from raw, THEN log1p+zscore on 7",
+  "is_core_centrality": {
+    "auc": 0.5541,
+    "sd_fold": 0.059
+  },
+  "is_core_raw_struct": {
+    "auc": 0.8983,
+    "sd_fold": 0.0248
+  },
+  "balance_top5pct_centrality": {
+    "auc": 0.784,
+    "sd_fold": 0.0224
+  },
+  "balance_top5pct_raw_struct": {
+    "auc": 0.8113,
+    "sd_fold": 0.0137
+  },
+  "gnn_is_core": {
+    "mean": 0.9241,
+    "sd_seed": 0.0112,
+    "min": 0.9112,
+    "max": 0.9414
+  },
+  "gnn_balance": {
+    "mean": 0.8135,
+    "sd_seed": 0.008,
+    "min": 0.7992,
+    "max": 0.8239
+  },
+  "gnn_nofeat_is_core": {
+    "mean": 0.5645,
+    "sd_seed": 0.0637,
+    "min": 0.4758,
+    "max": 0.6559
+  },
+  "purity": {
+    "mean": 0.3086,
+    "sd_seed": 0.0231,
+    "min": 0.2757,
+    "max": 0.3405
+  },
+  "enrichment": {
+    "mean": 40.2745,
+    "sd_seed": 3.0146,
+    "min": 35.972,
+    "max": 44.4359
+  },
+  "enrichment_centrality": 2.3,
+  "enrichment_raw_struct": 13.2,
+  "purity_centrality": 0.0176,
+  "purity_raw_struct": 0.1014,
+  "random_baseline_purity": 0.00766,
+  "node2vec_is_core": {
+    "mean": 0.9054,
+    "sd_seed": 0.0143,
+    "min": 0.8843,
+    "max": 0.9239
+  },
+  "node2vec_enrichment": {
+    "mean": 41.02,
+    "sd_seed": 1.27
+  },
+  "gnn_vs_node2vec": {
+    "diff": 0.0187,
+    "pooled_se": 0.0073,
+    "z": 2.56,
+    "verdict": "GNN significantly better"
+  }
+}

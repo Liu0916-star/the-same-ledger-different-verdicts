@@ -2,142 +2,176 @@
 
 **How Measurement Specification Determines On-Chain Concentration**
 
-Jintao Liu\*, Zhimo Ji\* and Xuzhe Lin · \*School of Computing and Information Systems, The University of Melbourne · School of Mathematics and Statistics, The University of Sydney
+Jintao Liu\*, Zhimo Ji\* (School of Computing and Information Systems, The University of Melbourne) and Xuzhe Lin (School of Mathematics and Statistics, The University of Sydney)
 
-\* Equal contribution
+\* Equal contribution · [中文说明](README_zh.md)
 
 [![arXiv](https://img.shields.io/badge/arXiv-2609.24176-b31b1b.svg)](https://arxiv.org/abs/2609.24176)
+[![Data DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23329575.svg)](https://doi.org/10.5281/zenodo.23329575)
 
 ---
 
-Whether a public blockchain is "decentralized" is routinely settled by citing a
-concentration statistic. This repository contains the data pipeline, results
-and manuscript for a paper showing that, on two ERC-20 ledgers observed over an
-identical 90-day window, that verdict is a property of the measurement rather
-than of the ledger.
+People often settle whether a public blockchain is "decentralized" by quoting a
+single concentration statistic. This repository contains the data pipeline,
+results and manuscript for a paper that tests this on two ERC-20 ledgers,
+Chainlink (LINK) and Uniswap (UNI), over the same 90-day window. On these
+ledgers, the verdict depends on how the statistic is specified as much as on
+the ledger itself.
 
-**Four discretionary choices move the balance HHI of a single ledger by a factor
-of 21** (UNI: 109 to 2,336), every specification defensible and none dictated
-by the data. Over the same range the Gini coefficient moves by less than 0.003.
-We also document a case in which one implementation detail — whether repeated
-transfers between an address pair are summed or overwritten — overturned a
-finding that had been written into an earlier draft of the paper.
+This is the code and data for **arXiv v2** (release `v2.0`). Appendix E of the
+paper lists every change from the first version.
+
+## Main results
+
+- **Specification choices move the statistics.** Over 18 combinations of
+  holder population, address type and entity resolution:
+  - the balance HHI of UNI runs from **108 to 3,281** (LINK: 115 to 562);
+  - the balance Gini moves by at most 0.0063 (UNI) and 0.0129 (LINK).
+- **Each choice acts on one end of the distribution.**
+  - Address type and entity resolution act on the top. They move the HHI.
+  - A balance floor acts on the tail. A USD 100 floor raises 1 − Gini 4.7-fold
+    (UNI) and 2.6-fold (LINK), yet changes the HHI by at most 0.5%.
+  - Restricting to transfer-active addresses acts on both ends.
+- **Implementation details matter as much.**
+  - LINK had a coordinated dust airdrop: 549,598 transfers from 80 senders.
+    Removing it by rule changes the HHI of active LINK holdings from 135 to 375.
+  - If repeated transfers between an address pair are overwritten instead of
+    summed, the graph loses 85.9% of transferred volume.
+- **Ownership and routing tell different stories.**
+  - Ownership is extremely unequal: Gini 0.990 (LINK), 0.998 (UNI).
+  - Routing is unconcentrated: weekly flow HHI 421 (LINK), 386 (UNI).
+- **The learned model adds little to hidden-broker selection.** The
+  hidden-broker criterion selects 22 LINK and 9 UNI addresses. In a blind,
+  degree-matched control, the learned representation adds no detectable power
+  beyond counterparty count: 50% vs 45% of addresses resolve to named routing
+  services, one-sided Fisher *p* = 0.49.
+- **Governance looks different in votes than in balances.** Measured in
+  delegated votes, 4 UNI delegates reach the 40M quorum. None of the 49
+  delegates able to propose routes the token.
 
 | | LINK (oracle) | UNI (governance) |
 |---|---|---|
-| Transfers / active addresses | 1,233,497 / 642,126 | 433,856 / 38,667 |
-| Balance Gini | 0.990 | 0.998 |
-| Balance HHI, across specifications | 115 – 562 | 109 – 2,336 |
+| Transfers in window (raw) | 1,233,497 | 433,856 |
+| Holders at snapshot block 25,390,910 | 885,012 | 382,972 |
+| Transfer-active addresses after cleaning | 132,059 | 37,153 |
+| Balance HHI over 18 specifications | 115 – 562 | 108 – 3,281 |
+| Balance Gini (all holders) | 0.9898 | 0.9977 |
 | Weekly flow HHI (address / entity-resolved) | 421 / 654 | 386 / 667 |
-| Hidden brokers (rank ensemble, 10 seeds) | 30 | 18 |
-| — shared across both ledgers | 12 | 12 |
-| — of which resolve to a named protocol | 6 | 6 |
+| Hidden brokers (shared across ledgers) | 22 (4) | 9 (4) |
 
-Observation window: 2026-03-26 to 2026-06-24 UTC. Concentration verdicts are
-reported against both the 2010 Horizontal Merger Guidelines and the 2023
-Merger Guidelines that replaced them.
-
----
+Observation window: 2026-03-26 00:00 to 2026-06-25 00:00 UTC. Balances are
+taken at the last block of the window.
 
 ## Repository layout
 
 ```
 .
 ├── paper/
-│   ├── main.tex                  manuscript (arXiv version)
-│   ├── refs.bib
-│   └── figures/                  the eight figures used in main.tex
+│   ├── main.tex, sections/, bib_v2.tex   manuscript (arXiv v2)
+│   ├── numbers.tex                       every number in the text, generated
+│   └── figures/                          the three figures
+├── requirements.txt, requirements-lock.txt
 └── gnn-decentralization/
-    ├── config.py                 every path, threshold and hyperparameter
-    ├── common.py                 loading, metrics, graph construction, labels
-    ├── 00_data_check.py … 08_figures.py      main pipeline
-    ├── 09_verify_gap.py, 10_fix_verification.py   verification bookkeeping
-    ├── 11_random_control.py      matched control experiment
-    ├── 12_reverify_all.py        full re-verification of broker identities
-    ├── extract_data.sql          BigQuery extraction
-    ├── labels/                   archived Etherscan label snapshot
-    ├── verification/             manual on-chain verification records
-    ├── results/                  derived artefacts (see below)
-    └── results_v16_legacy/       results of the superseded construction
+    ├── config.py              every path, threshold, seed and hyperparameter
+    ├── common.py              loading, cleaning, metrics, graph construction, GraphSAGE
+    ├── 00_data_check.py … 07_governance.py   main pipeline
+    ├── 08_figures.py          the three figures (reads results only)
+    ├── 11_random_control.py   blind, degree-matched control
+    ├── v2_*.py                cleaning report, sensitivity analyses, bootstrap
+    │                          intervals, on-chain checks (prices, fee contracts)
+    ├── benchmarks/            public-data HHI benchmarks, with raw downloads
+    ├── make_numbers.py        writes paper/numbers.tex and checks every
+    │                          qualitative claim against its numbers
+    ├── paper_audit.py         flags numbers typed by hand in the manuscript
+    ├── reproduce.sh           runs everything, in order
+    ├── sql/                   BigQuery extraction (v2) and delegation snapshot
+    ├── extract_data.sql       first-version extraction (kept for the v1 comparison)
+    ├── labels/                archived Etherscan label snapshot
+    ├── verification/          manual and blind verification records
+    ├── results/               derived artefacts of the main specification
+    ├── results_spec_*/        alternative cleaning and edge-weight specifications
+    ├── results_v1/            first-version results (for the v1 → v2 comparison)
+    └── results_v16_legacy/    one file from the superseded construction
 ```
 
-## What is archived, and where
+## Data
 
-The manuscript commits to archiving several artefacts. This table maps each
-commitment to its location.
+Raw data are not in this repository, because one file is larger than GitHub
+allows. They are archived on Zenodo (DOI: [10.5281/zenodo.23329575](https://doi.org/10.5281/zenodo.23329575)) as `data.zip`, with
+`SHA256SUMS.txt`. Unzip it inside `gnn-decentralization/`, which creates `data/`:
 
-| Manuscript commitment | Location |
-|---|---|
-| Label snapshot, retrieved 26 Aug 2026, MD5 `16792aac5afd` | `labels/etherscan_labels_2026-08-26.json` |
-| Embeddings underlying every reported ensemble, with fingerprints | `results/emb_*_1w_s*.npy` and `.fp` |
-| Node features | `results/graph_*_1w.npz`, `graph_*_5w.npz` |
-| Identified broker sets and cluster assignments | `results/hidden_brokers_*.csv`, `c3_typology_*.json` |
-| Full per-address verification record | `verification/broker_identities.csv`, `reverify_worklist.csv` |
-| Matched control experiment (blind list, key, result) | `verification/control_*.csv`, `results/random_control.json` |
-| Phishing airdrop: 38 contracts, 13 funders, Etherscan classification | `verification/eventstudy_w7_phishing_addrs.json` |
-| Edge-weight correction, before and after | `results/edgeweight_compare_*.npz`, `results_v16_legacy/` |
-| 6.4 × 10⁵-node graph and embedding (≈140 MB) | Zenodo: DOI to be added |
+| File | Content | How to rebuild |
+|---|---|---|
+| `data/v2/v2_transfers.parquet` | every LINK and UNI transfer in the window | `sql/v2_transfers.sql` |
+| `data/v2/v2_balances.parquet` | balances at block 25,390,910 | `sql/v2_balances.sql` |
+| `data/v2/uni_delegation_snapshot.parquet`, `uni_delegate_votes.parquet` | UNI delegation and votes at the same block | `sql/fetch_uni_delegation.py` (public RPC) |
+| `data/*.csv` | first-version extraction | `extract_data.sql`; used only by `v2_data_check.py` |
 
-Raw transfer and balance data (≈700 MB) are not tracked. `extract_data.sql`
-reproduces them exactly from `bigquery-public-data.crypto_ethereum.token_transfers`,
-and `00_data_check.py` verifies the row counts against the figures above.
+The queries read `bigquery-public-data.crypto_ethereum.token_transfers`.
+`sql/download_v2.py` runs them and writes the parquet files.
 
 ## Reproducing the results
 
 ```bash
+python3.13 -m venv .venv
+.venv/bin/pip install -r requirements-lock.txt
 cd gnn-decentralization
-pip install -r ../requirements.txt
-
-# place the four CSVs from extract_data.sql in data/, then:
-python 00_data_check.py          # gate: resolve any [X] before continuing
-python 01_build_graph.py         # LINK and UNI at 10^4; pass args for 5w / 64w
-python 02_c1.py                  # instrument evaluation, multi-seed
-python 03_c2_weekly.py           # weekly concentration series
-python 04_c2_procrustes.py       # window-wise retraining and alignment
-python 05_c3_roles.py            # role typology and hidden brokers
-python 06_concentration.py       # specification grid and entity resolution
-python 07_governance.py          # rule layer (UNI only)
-python 08_figures.py             # every figure, from results/ only
+unzip /path/to/data.zip    # from Zenodo
+./reproduce.sh
 ```
 
-To reproduce the figures and tables without retraining, the archived
-`results/` is sufficient: `05_c3_roles.py` reuses cached embeddings whose
-fingerprint matches the current graph, and `08_figures.py` reads only
-`results/`.
+`reproduce.sh` runs every script in dependency order:
 
-## Four things that determine whether the numbers reproduce
+1. cleaning;
+2. graphs and embeddings at three scales;
+3. the four alternative specifications;
+4. bootstrap intervals and on-chain checks;
+5. figures and `paper/numbers.tex`.
 
-**Edge weights must be summed.** Standard graph libraries overwrite a repeated
-edge's attribute rather than accumulating it, without raising an error. Repeat
-interaction accounts for over 90% of records in the core subgraphs, so the
-overwrite construction discards roughly 85% of transferred volume.
-`common.build_graph()` is the single entry point and sums explicitly. This is
-the detail that overturned the earlier draft's finding (manuscript §5.5).
+It takes about three hours on an Apple-silicon CPU. A few steps read
+historical state from public Ethereum and L2 RPC endpoints, so the machine
+needs network access.
 
-**Labels must come from the archived snapshot.** The upstream compilation is
-updated continuously and silently. `common.load_labels()` refuses to query it
-live.
+Training runs on CPU with deterministic algorithms. A full rerun of
+`reproduce.sh` reproduces every result file byte for byte, apart from the
+timestamps in `manifest.csv`. To rebuild only the
+paper's numbers and figures from the archived `results/`, run
+`make_numbers.py` and `08_figures.py`. To compile the paper, run `latexmk -pdf
+main.tex` in `paper/`.
 
-**GNN training on GPU is not bit-reproducible.** Scatter operations have no
-fixed reduction order, so seeding alone does not fix the result. Every GNN
-figure is a mean over independent initialisations, and the broker set is a
-rank ensemble over ten. Embedding caches carry a fingerprint of the feature
-matrix and edge list; a mismatch triggers retraining rather than silent reuse.
+## What is archived, and where
 
-**Manual verification must use the token-transfer view.** A routing contract's
-Etherscan transaction count records only calls made to it directly — the most
-central shared broker shows six transactions against several thousand token
-transfers. Etherscan also caps the displayed transfer count at 10,000, which the
-verification records note as a lower bound where it binds.
+| Artefact | Location |
+|---|---|
+| Label snapshot (retrieved 26 Aug 2026, MD5 `16792aac5afd369e6b847c3f0aad1df4`) | `labels/etherscan_labels_2026-08-26.json` |
+| Graphs with node features | `results/graph_*_1w.npz`, `graph_*_5w.npz` |
+| Embeddings behind every reported ensemble, with fingerprints | `results/emb_*_1w_s*.npy` and `.fp` |
+| Hidden-broker sets and cluster assignments | `results/hidden_brokers_*.csv`, `c3_typology_*.json` |
+| Dust-airdrop senders flagged by the rule | `verification/airdrop_senders_*.csv` |
+| Blind control: list, key, known identities, result | `verification/control_*_v2.csv`, `known_identities_v2.csv`, `results/random_control.json` |
+| Live Etherscan tags of the brokers (6 Oct 2026) | `verification/broker_live_labels_2026-10-06.csv` |
+| UNI fee mechanism: burns, releasers on Ethereum and four L2s | `verification/uni_fee_burns.md`, `uni_l2_firepits.csv`, `raw/` |
+| Chainlink prices at the snapshot (feed, round, answer) | `results/prices_snapshot.json` |
+| First-version verification records | `verification/broker_identities.csv`, `verification/v1/` |
 
-## A negative result we report
+## Four details that decide whether the numbers reproduce
 
-A degree-matched control drawn from the same eligibility pool as the hidden
-brokers resolves to named routing protocols at 35%, against 37% for the brokers
-(Fisher one-sided *p* = 0.57). The discriminative work is done by the criterion
-— in particular by counterparty count — and not by the graph neural network used
-to operationalise "structurally central". `11_random_control.py` implements the
-design, including blinding and a calibration check on the verifier.
+- **Edge weights are summed.** `networkx.from_pandas_edgelist` with a
+  `DiGraph` keeps only the last record of each ordered address pair, and it
+  does so without warning. `common.build_graph()` sums repeated pairs
+  explicitly. Section 4.6 of the paper shows what overwriting changes.
+- **Labels come from the archived snapshot.** The upstream compilation was
+  last scraped for Ethereum in June 2023. `common.load_labels()` reads only the
+  archived file and merges 173 entries that differ only in letter case.
+- **Every source of randomness is seeded.**
+  - PyTorch Geometric's `negative_sampling` draws from Python's `random`
+    module, so we seed Python, NumPy and PyTorch.
+  - We train on CPU with deterministic algorithms.
+  - We give gensim a stable hash function.
+  - We break ties in the activity ranking by address, and insert nodes into
+    the graph in address order.
+- **Manual verification uses Etherscan's token-transfer view.** A routing
+  contract that other contracts call shows few transactions of its own.
 
 ## Citation
 

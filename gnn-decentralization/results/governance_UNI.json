@@ -1,64 +1,231 @@
 {
   "token": "UNI",
-  "applicable": true,
-  "proposal_threshold": 2500000,
+  "proposal_threshold": 1000000,
   "quorum": 40000000,
-  "All holders": {
-    "n": 386029,
-    "nakamoto_quorum": 1,
-    "nakamoto_quorum_reachable": true,
-    "n_eligible_each_above_threshold": 55,
-    "eligible_share": 0.7377
+  "snapshot_block": 25390910,
+  "specs": {
+    "balance: all holders": {
+      "n": 382972,
+      "total": 1000000000.0000004,
+      "share_of_supply": 1.0,
+      "nakamoto_quorum": 1,
+      "nakamoto_half": 9,
+      "n_each_above_threshold": 120,
+      "share_above_threshold": 0.8456,
+      "top1_share": 0.2721,
+      "top10_share": 0.5176,
+      "hhi": 895.2,
+      "gini": 0.9977,
+      "quorum_members": [
+        {
+          "address": "0x1a9c8182c09f50c8318d769245bea52c32be35bc",
+          "balance": 272134858,
+          "identity": "UNI Issuer Reserve",
+          "own_votes": 0
+        }
+      ]
+    },
+    "balance: excl. non-voting": {
+      "n": 382969,
+      "total": 609044193.882812,
+      "share_of_supply": 0.609,
+      "nakamoto_quorum": 2,
+      "nakamoto_half": 37,
+      "n_each_above_threshold": 117,
+      "share_above_threshold": 0.7465,
+      "top1_share": 0.0395,
+      "top10_share": 0.2533,
+      "hhi": 108.0,
+      "gini": 0.9962,
+      "quorum_members": [
+        {
+          "address": "0xf977814e90da44bfa03b6295a0616a897441acec",
+          "balance": 24064933,
+          "identity": "Binance",
+          "own_votes": 0
+        },
+        {
+          "address": "0x61cb39bece033c5bda281747db1c15cced2096eb",
+          "balance": 23047481,
+          "identity": "",
+          "own_votes": 0
+        }
+      ]
+    },
+    "balance: excl. non-voting & custodial": {
+      "n": 382944,
+      "total": 542604422.8465554,
+      "share_of_supply": 0.5426,
+      "nakamoto_quorum": 2,
+      "nakamoto_half": 42,
+      "n_each_above_threshold": 111,
+      "share_above_threshold": 0.7215,
+      "top1_share": 0.0425,
+      "top10_share": 0.2318,
+      "hhi": 96.1,
+      "gini": 0.9958,
+      "quorum_members": [
+        {
+          "address": "0x61cb39bece033c5bda281747db1c15cced2096eb",
+          "balance": 23047481,
+          "identity": "",
+          "own_votes": 0
+        },
+        {
+          "address": "0x611f7bf868a6212f871e89f7e44684045ddfb09d",
+          "balance": 19320926,
+          "identity": "",
+          "own_votes": 0
+        }
+      ]
+    },
+    "delegated votes (main)": {
+      "n": 23405,
+      "total": 209682093.22005323,
+      "share_of_supply": 0.2097,
+      "nakamoto_quorum": 4,
+      "nakamoto_half": 12,
+      "n_each_above_threshold": 49,
+      "share_above_threshold": 0.9047,
+      "top1_share": 0.0716,
+      "top10_share": 0.4571,
+      "hhi": 294.5,
+      "gini": 0.9983
+    }
   },
-  "Excl. non-voting": {
-    "n": 386026,
-    "nakamoto_quorum": 2,
-    "nakamoto_quorum_reachable": true,
-    "n_eligible_each_above_threshold": 52,
-    "eligible_share": 0.3504
-  },
-  "Excl. custodial": {
-    "n": 386001,
-    "nakamoto_quorum": 2,
-    "nakamoto_quorum_reachable": true,
-    "n_eligible_each_above_threshold": 47,
-    "eligible_share": 0.2909
-  },
+  "top_delegates": [
+    {
+      "delegate": "0x11da8ae234edd16b135edc47e5d9becc8717ecdc",
+      "votes": 15003219,
+      "share_of_delegated": 0.0716,
+      "label_snapshot_name": ""
+    },
+    {
+      "delegate": "0x465f39229c30d8171c540a9411d1b6bd894f8aa3",
+      "votes": 14986062,
+      "share_of_delegated": 0.0715,
+      "label_snapshot_name": ""
+    },
+    {
+      "delegate": "0x19d373d0f95f00d368a8d57605af746c4ea9b1d0",
+      "votes": 9295469,
+      "share_of_delegated": 0.0443,
+      "label_snapshot_name": ""
+    },
+    {
+      "delegate": "0x53689948444cfd03d2ad77266b05e61b8eed3132",
+      "votes": 9003040,
+      "share_of_delegated": 0.0429,
+      "label_snapshot_name": ""
+    },
+    {
+      "delegate": "0x030d6830dc8ff125850390da620fa3e12decd437",
+      "votes": 9000000,
+      "share_of_delegated": 0.0429,
+      "label_snapshot_name": ""
+    },
+    {
+      "delegate": "0x6d714455d4b28595d4085aa7c8e4f499492875c3",
+      "votes": 8007643,
+      "share_of_delegated": 0.0382,
+      "label_snapshot_name": ""
+    },
+    {
+      "delegate": "0xe7925d190aea9279400cd9a005e33ceb9389cc2b",
+      "votes": 8002091,
+      "share_of_delegated": 0.0382,
+      "label_snapshot_name": "Variant Fund"
+    },
+    {
+      "delegate": "0x1d8f369f05343f5a642a78bd65ff0da136016452",
+      "votes": 8000001,
+      "share_of_delegated": 0.0382,
+      "label_snapshot_name": ""
+    },
+    {
+      "delegate": "0x5f246d7d19aa612d6718d27c1da1ee66859586b0",
+      "votes": 7300000,
+      "share_of_delegated": 0.0348,
+      "label_snapshot_name": ""
+    },
+    {
+      "delegate": "0x88e15721936c6eba757a27e54e7ae84b1ea34c05",
+      "votes": 7250000,
+      "share_of_delegated": 0.0346,
+      "label_snapshot_name": ""
+    }
+  ],
+  "balance_spec_top2": [
+    {
+      "address": "0xf977814e90da44bfa03b6295a0616a897441acec",
+      "balance": 24064933,
+      "identity": "Binance",
+      "delegates_to": "0x0000000000000000000000000000000000000000",
+      "own_votes": 0
+    },
+    {
+      "address": "0x61cb39bece033c5bda281747db1c15cced2096eb",
+      "balance": 23047481,
+      "identity": "",
+      "delegates_to": "0x0000000000000000000000000000000000000000",
+      "own_votes": 0
+    }
+  ],
   "stratification": {
-    "top10_outflow": {
-      "overlap": 2,
-      "share": 0.3788
+    "n_eligible": 49,
+    "eligible_inactive": 47,
+    "eligible_inactive_share": 0.9592,
+    "top10": {
+      "overlap": 0,
+      "outflow_share": 0.3788,
+      "median_votes": 0.0,
+      "own_balance_delegated_share": 0.0
     },
-    "top25_outflow": {
-      "overlap": 4,
-      "share": 0.5466
+    "top50": {
+      "overlap": 0,
+      "outflow_share": 0.6694,
+      "median_votes": 0.0,
+      "own_balance_delegated_share": 0.0
     },
-    "top50_outflow": {
-      "overlap": 5,
-      "share": 0.6694
+    "top100": {
+      "overlap": 0,
+      "outflow_share": 0.7772,
+      "median_votes": 0.0,
+      "own_balance_delegated_share": 0.0
     },
-    "top100_outflow": {
-      "overlap": 7,
-      "share": 0.7772
-    },
-    "brokers_overlap_circular": 0,
-    "n_brokers": 18,
-    "n_eligible_voting": 52,
-    "eligible_inactive": 37,
-    "routing_top50_median_balance": 45503.58219744333,
-    "routing_top50_above_threshold": 6
+    "brokers_overlap_circular": 0
   },
   "revocable_share": {
     "L1_governance_direct": 0.0071,
     "L2_protocol_owned": 0.0014,
-    "L3_unidentified": 0.685,
-    "lower": 0.0071,
-    "upper_bound": 0.6935
+    "L3_unidentified": 0.685
   },
-  "caveats": [
-    "持币≠投票权，需委托激活；此处为 potential voting power 的上界",
-    "Uniswap 基金会自承大额委托人参与率常低于 50%，实际决策权更集中",
-    "托管地址不代表持有人意志，已单列一档",
-    "n=2，不作为检测器主张，仅为单协议的三层描述"
-  ]
+  "fee_burns_window": {
+    "n": 1498,
+    "total_uni": 4046000.0037,
+    "lots": {
+      "0.0037": {
+        "n": 1,
+        "senders": 1,
+        "via_bridges": 0
+      },
+      "2000.0": {
+        "n": 971,
+        "senders": 5,
+        "via_bridges": 966
+      },
+      "4000.0": {
+        "n": 526,
+        "senders": 14,
+        "via_bridges": 0
+      }
+    },
+    "amount_counts": {
+      "2000.0": 971,
+      "4000.0": 526,
+      "0.0037": 1
+    },
+    "dead_balance_share": 0.1063,
+    "note": "verification/uni_fee_burns.md"
+  }
 }

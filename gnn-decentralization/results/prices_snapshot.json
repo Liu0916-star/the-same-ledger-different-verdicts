@@ -1,0 +1,22 @@
+{
+  "LINK": {
+    "feed": "0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c",
+    "description": "LINK / USD",
+    "round_id": "129127208515966890253",
+    "answer_raw": "739221800",
+    "decimals": 8,
+    "price_usd": 7.392218,
+    "updated_at": 1782343211,
+    "block": 25390910
+  },
+  "UNI": {
+    "feed": "0x553303d460EE0afB37EdFf9bE42922D8FF63220e",
+    "description": "UNI / USD",
+    "round_id": "129127208515966883977",
+    "answer_raw": "292476340",
+    "decimals": 8,
+    "price_usd": 2.9247634,
+    "updated_at": 1782344075,
+    "block": 25390910
+  }
+}

@@ -1,0 +1,59 @@
+% =========================================================================
+\section{Case Study: A Coordinated Phishing Airdrop on LINK}
+\label{sec:airdrop}
+
+This section uses the uncleaned LINK records, because the event it describes
+is what the cleaning rule of Section~\ref{sec:data} removes. In week
+\V{airdrop.week} of the window LINK recorded \V{airdrop.week_tx} transfers,
+\V{airdrop.week_ratio} times the median week. Of these,
+\V{link.airdrop_tx}---all sent on \V{airdrop.days}---were transfers of
+\V{airdrop.amt_lo} or \V{airdrop.amt_hi} LINK from \V{link.airdrop_senders} contracts to
+\V{airdrop.recipients} distinct recipients, \V{airdrop.single_pct} of whom
+received exactly one. The total value distributed was \V{airdrop.total_link}
+LINK.
+
+Our initial manual investigation, before the rule existed, identified \V{airdrop.archived_n}
+contracts that expose an \texttt{Airdrop} method and present
+themselves as ``LinkGiveaway'' or ``LinkStaking'', neither of which is a
+Chainlink product; they account for exactly \V{airdrop.tx_archived}
+transfers, \V{airdrop.per_contract} each. The rule recovers all \V{airdrop.archived_n} and
+\V{airdrop.others} further senders responsible for the remaining
+\V{airdrop.tx_others} transfers. We inspected each of the \V{airdrop.others}
+on Etherscan: all are contracts that Etherscan flags as tokens ``reported for
+impersonating well-known cryptocurrencies'', all were invoked through an
+\texttt{Airdrop} method, and they were deployed by \V{airdrop.deployers}
+addresses under names such as LinkEarn, LinkAward and BountyLink. The full
+list, the funders identified in the initial investigation, and the Etherscan
+classification as retrieved are archived with the code; we date the
+classification because Etherscan labels can change.
+
+The event separates two statistics that are often treated as
+interchangeable (Table~\ref{tab:airdrop}). With the airdrop transfers
+present, the receiver-side Gini of the week rises to \V{airdrop.gini_in_with}
+from \V{airdrop.gini_in_without}; the sender-side flow HHI is
+\V{airdrop.hhi_out_with} with and \V{airdrop.hhi_out_without} without them.
+A flood of near-worthless transfers saturates an unweighted dispersion
+measure over recipients while leaving value-weighted market structure
+untouched. Its effect on structure is larger than on either statistic: the
+airdrop adds \V{airdrop.addr_added} addresses to the week, enough to make
+almost every LINK holder ``transfer-active'' and to change which addresses
+enter the activity-ranked subgraphs (Table~\ref{tab:spec}).
+
+\begin{table}[t]
+\centering\small
+\caption{LINK week \V{airdrop.week} with and without the airdrop transfers.
+Both columns remove mint/burn and zero-value records; they differ only in
+the airdrop rule.}
+\label{tab:airdrop}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+ & With airdrop & Without \\
+\midrule
+Transfers & \V{airdrop.ntx_with} & \V{airdrop.ntx_without} \\
+Addresses & \V{airdrop.naddr_with} & \V{airdrop.naddr_without} \\
+Receiver-side Gini & \V{airdrop.gini_in_with} & \V{airdrop.gini_in_without} \\
+Sender-side Gini & \V{airdrop.gini_out_with} & \V{airdrop.gini_out_without} \\
+Sender-side flow HHI & \V{airdrop.hhi_out_with} & \V{airdrop.hhi_out_without} \\
+\bottomrule
+\end{tabular}
+\end{table}

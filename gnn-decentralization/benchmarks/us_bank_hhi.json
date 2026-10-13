@@ -1,0 +1,114 @@
+{
+  "2026": {
+    "hhi": 397.1,
+    "n_branches": 75859,
+    "n_holders": 4020,
+    "total_deposits_thousand_usd": 19050196416,
+    "top5": [
+      [
+        "JPMORGAN CHASE & CO.",
+        11.69
+      ],
+      [
+        "BANK OF AMERICA CORPORATION",
+        10.48
+      ],
+      [
+        "WELLS FARGO & COMPANY",
+        8.21
+      ],
+      [
+        "CITIGROUP INC.",
+        4.73
+      ],
+      [
+        "U.S. BANCORP",
+        2.8
+      ]
+    ]
+  },
+  "2025": {
+    "hhi": 397.1,
+    "n_branches": 76097,
+    "n_holders": 4195,
+    "total_deposits_thousand_usd": 18103110848,
+    "top5": [
+      [
+        "JPMORGAN CHASE & CO.",
+        11.78
+      ],
+      [
+        "BANK OF AMERICA CORPORATION",
+        10.98
+      ],
+      [
+        "WELLS FARGO & COMPANY",
+        7.75
+      ],
+      [
+        "CITIGROUP INC.",
+        4.39
+      ],
+      [
+        "U.S. BANCORP",
+        2.89
+      ]
+    ]
+  },
+  "2024": {
+    "hhi": 394.4,
+    "n_branches": 76727,
+    "n_holders": 4290,
+    "total_deposits_thousand_usd": 17405498222,
+    "top5": [
+      [
+        "JPMORGAN CHASE & CO.",
+        11.54
+      ],
+      [
+        "BANK OF AMERICA CORPORATION",
+        10.99
+      ],
+      [
+        "WELLS FARGO & COMPANY",
+        8.14
+      ],
+      [
+        "CITIGROUP INC.",
+        4.27
+      ],
+      [
+        "U.S. BANCORP",
+        3.03
+      ]
+    ]
+  },
+  "2023": {
+    "hhi": 403.5,
+    "n_branches": 77770,
+    "n_holders": 4377,
+    "total_deposits_thousand_usd": 17269714209,
+    "top5": [
+      [
+        "JPMORGAN CHASE & CO.",
+        11.97
+      ],
+      [
+        "BANK OF AMERICA CORPORATION",
+        10.93
+      ],
+      [
+        "WELLS FARGO & COMPANY",
+        7.97
+      ],
+      [
+        "CITIGROUP INC.",
+        4.38
+      ],
+      [
+        "U.S. BANCORP",
+        3.05
+      ]
+    ]
+  }
+}

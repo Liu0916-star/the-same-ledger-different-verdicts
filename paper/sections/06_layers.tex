@@ -1,0 +1,132 @@
+% =========================================================================
+\section{Ownership, Routing and Rules (RQ3)}
+\label{sec:layers}
+
+\subsection{Ownership and routing are weakly related}
+\label{sec:wealth-power}
+Both ledgers are extremely unequal in ownership---balance Gini
+\V{link.gini.all} and \V{uni.gini.all}, with the top 1\% of addresses holding
+\V{link.top1} and \V{uni.top1} of supply---yet unconcentrated in routing,
+with a mean weekly flow HHI of \V{link.fhhi.weekly} and \V{uni.fhhi.weekly}.
+Across the addresses of the $10^{4}$ subgraph that hold a positive balance,
+the rank correlation between balance and counterparty count is
+\V{link.rho.cp.pos} on LINK ($n = \V{link.rho.n.pos}$, 95\% CI
+\V{link.rho.cp.pos.ci}) and \V{uni.rho.cp.pos} on UNI
+($n = \V{uni.rho.n.pos}$, \V{uni.rho.cp.pos.ci}); between balance and
+betweenness it is \V{link.rho.bet.pos} (\V{link.rho.bet.pos.ci}) and
+\V{uni.rho.bet.pos} (\V{uni.rho.bet.pos.ci}). Including the addresses with
+zero balance gives \V{link.rho.cp.all}
+and \V{uni.rho.cp.all} for counterparties. These correlations are small in
+magnitude; with samples of this size some are nonetheless distinguishable
+from zero, and we read them as weak association rather than independence.
+Weak association is what allows extreme ownership inequality to coexist with
+an unconcentrated routing layer: knowing who holds the supply says little
+about who moves it.
+
+\subsection{The rule layer, measured in delegated votes}
+\label{sec:governance}
+Uniswap governance is a threshold game. Submitting an on-chain proposal
+requires $10^{6}$ UNI of votes delegated to the proposer, and a proposal
+passes with $4\times10^{7}$ UNI of votes in favour
+\cite{uniswap2026governance}; we read both values from the governor contract
+at the first and last block of the window. Votes are not balances. A token
+carries voting weight only once its holder delegates it, to itself or to
+another address, and the weight is checkpointed per block. We therefore
+measure the rule layer in delegated votes at the snapshot block, read from
+the token contract: we query the delegate of every one of the \V{uni.holders}
+holders and the checkpointed votes of every one of the
+\V{uni.gov.n_delegates} delegates, and verify that each delegate's votes
+equal the summed balance of the holders delegating to it.
+
+\paragraph{Specification again}
+Table~\ref{tab:gov} sets the delegated-vote measurement beside the
+balance-based one used in the first version of this paper.
+\V{uni.gov.deleg_share} of the supply was delegated at the snapshot. Counting
+balances, the smallest set of voting-capable addresses holding $4\times10^{7}$
+UNI has \V{uni.gov.bal.nonvoting.n_quorum} members; the two addresses in
+question are a Binance hot wallet and an unlabelled address
+(\V{uni.gov.nonvoting.m2}), and neither has delegated, so their voting weight
+is zero. Excluding custodial addresses as well removes the Binance wallet;
+its place is taken by a second unlabelled address
+(\V{uni.gov.custodial.m2}), which has not delegated either. Counting delegated votes,
+\V{uni.gov.n_quorum} delegates are needed to reach the quorum and
+\V{uni.gov.n_half} to hold a majority of all delegated votes---close to the
+eleven that Fritsch et al.\ report for Uniswap in March 2022
+\cite{fritsch2024voting}. \V{uni.gov.n_eligible} delegates individually hold
+enough votes to submit a proposal. A balance-based count thus overstates
+concentration in this instance, and the direction of the error is not
+knowable in advance: it depends on who delegates.
+
+\begin{table}[t]
+\centering\small
+\caption{The UNI rule layer under four specifications at block
+\V{snapshot.block}. $N_{40\mathrm{M}}$: fewest addresses whose combined weight
+reaches the $4\times10^{7}$ UNI quorum. $N_{50\%}$: fewest addresses holding
+half of the total weight. $\geq 1\mathrm{M}$: addresses that individually
+meet the proposal threshold. Only delegated votes carry voting weight.}
+\label{tab:gov}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Specification & $N_{40\mathrm{M}}$ & $N_{50\%}$ & $\geq 1\mathrm{M}$ & Weight / supply \\
+\midrule
+Balances, all holders & \V{uni.gov.bal.all.n_quorum} & \V{uni.gov.bal.all.n_half} & \V{uni.gov.bal.all.n_eligible} & \V{uni.gov.bal.all.share} \\
+Balances, excl.\ non-voting & \V{uni.gov.bal.nonvoting.n_quorum} & \V{uni.gov.bal.nonvoting.n_half} & \V{uni.gov.bal.nonvoting.n_eligible} & \V{uni.gov.bal.nonvoting.share} \\
+\quad and excl.\ custodial & \V{uni.gov.bal.custodial.n_quorum} & \V{uni.gov.bal.custodial.n_half} & \V{uni.gov.bal.custodial.n_eligible} & \V{uni.gov.bal.custodial.share} \\
+\textbf{Delegated votes} & \textbf{\V{uni.gov.n_quorum}} & \textbf{\V{uni.gov.n_half}} & \textbf{\V{uni.gov.n_eligible}} & \V{uni.gov.deleg_share} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The rule layer has already rewritten the routing layer}
+On 25 December 2025 Uniswap governance passed the ``UNIfication'' proposal,
+which activated protocol fees on Uniswap v2 and selected v3 pools, routed
+those fees to a \texttt{TokenJar} contract on each chain, and burned $10^{8}$
+UNI from the treasury; the burn was executed on 28 December
+\cite{theblock2025unification, cointelegraph2025burn, uniswap2026fees}.
+Assets leave a \texttt{TokenJar} only through the releaser contract it
+designates, and the jar's owner---on Ethereum, the governance timelock---can
+change that releaser. Throughout our window the Ethereum jar's releaser was the
+Firepit contract listed in Uniswap's deployment documentation
+\cite{uniswap2026deployments}, which releases the accumulated fees to whoever
+burns \V{uni.firepit.threshold} UNI; we read both values from the chain at
+the first and last block of the window. Its effects are visible in our data.
+All \V{uni.burn.n} UNI records that a naive pipeline would discard as
+``burns'' are transfers to \texttt{0x\ldots dEaD}: \V{uni.burn.hi.n} in lots
+of \V{uni.burn.lot_hi} UNI from \V{uni.burn.hi.senders} senders on
+Ethereum; \V{uni.burn.lo.n} in lots of \V{uni.burn.lot_lo} UNI, of which
+\V{uni.burn.lo.bridged} arrive through the Base, Arbitrum, Optimism and
+Unichain bridges and \V{uni.burn.lo.other} from an unlabelled address---a lot
+size that matches the \V{uni.burn.lot_lo}-UNI threshold we read at the end
+of the window from the releasers on \V{uni.l2.chains}, each identified as
+the address that the deployment page lists and that the chain's
+\texttt{TokenJar} designates on chain (addresses and calls in the
+repository, \ref{app:repro}); and one of \V{uni.burn.odd} UNI. They total \V{uni.burn.window} UNI. The burn address holds
+\V{uni.burn_pct} of supply at the snapshot, of which $10^{8}$ UNI is the
+one-off December burn. A vote of the rule layer changed the economics of
+every swap routed through a fee-enabled pool, which is the strongest
+evidence we have that routing contestability is held conditionally.
+
+\paragraph{The rule layer and the routing layer do not overlap}
+None of the \V{uni.gov.n_eligible} delegates that can submit a proposal is
+among the 10, 50 or 100 largest senders of UNI by mean weekly outflow, and
+\V{uni.gov.inactive} of them (\V{uni.gov.inactive_pct}) sent or received no
+UNI at all during the window. The largest senders have delegated none of
+their own balances. Because a hidden broker is defined to hold at most the
+median balance, a comparison of brokers with proposal-eligible addresses
+would be empty by construction; the outflow-based comparison has no balance
+condition and could have found an overlap.
+
+\paragraph{Routing under direct governance control}
+Of mean weekly UNI outflow, \V{uni.gov.rev_l1} originates from contracts the
+governance timelock controls and \V{uni.gov.rev_l2} from other
+Uniswap-labelled contracts; \V{uni.gov.rev_l3} comes from addresses the label
+compilation does not identify. This bounds direct control of UNI
+\emph{token} routing, not of swap volume in Uniswap pools, which the fee
+switch shows governance can reach.
+
+LINK has no token-weighted governance: holding LINK confers no vote, and
+while anyone may run a Chainlink oracle, each oracle network can restrict
+which oracles contribute to it \cite{chainlink2022nodeoperator}. Of the two
+ledgers whose routing layers we measure, only one has a rule layer that
+token holders can use to change it.

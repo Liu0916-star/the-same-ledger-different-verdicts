@@ -1,0 +1,126 @@
+{
+  "LINK": {
+    "positive_balance": {
+      "balance_vs_counterparties": {
+        "n": 5571,
+        "rho": -0.0059,
+        "p": 0.6578768892070045,
+        "ci95_fisher": [
+          -0.0322,
+          0.0203
+        ],
+        "ci95_bootstrap": [
+          -0.032,
+          0.0214
+        ]
+      },
+      "balance_vs_betweenness": {
+        "n": 5571,
+        "rho": -0.0488,
+        "p": 0.00027095469914175123,
+        "ci95_fisher": [
+          -0.0749,
+          -0.0225
+        ],
+        "ci95_bootstrap": [
+          -0.0762,
+          -0.0205
+        ]
+      }
+    },
+    "all_nodes": {
+      "balance_vs_counterparties": {
+        "n": 9656,
+        "rho": -0.0069,
+        "p": 0.4950047626078662,
+        "ci95_fisher": [
+          -0.0269,
+          0.013
+        ],
+        "ci95_bootstrap": [
+          -0.0281,
+          0.0136
+        ]
+      },
+      "balance_vs_betweenness": {
+        "n": 9656,
+        "rho": -0.0604,
+        "p": 2.911467307220708e-09,
+        "ci95_fisher": [
+          -0.0802,
+          -0.0405
+        ],
+        "ci95_bootstrap": [
+          -0.0799,
+          -0.0389
+        ]
+      }
+    },
+    "core_cluster_share_of_graph": 0.0209,
+    "n_graph_nodes": 9656,
+    "repeat_share_full": 0.6700107210474692,
+    "repeat_share_1w": 0.916117671431531
+  },
+  "UNI": {
+    "positive_balance": {
+      "balance_vs_counterparties": {
+        "n": 4672,
+        "rho": -0.0182,
+        "p": 0.21305973561384176,
+        "ci95_fisher": [
+          -0.0469,
+          0.0105
+        ],
+        "ci95_bootstrap": [
+          -0.049,
+          0.0116
+        ]
+      },
+      "balance_vs_betweenness": {
+        "n": 4672,
+        "rho": -0.0967,
+        "p": 3.4552018483185517e-11,
+        "ci95_fisher": [
+          -0.1251,
+          -0.0682
+        ],
+        "ci95_bootstrap": [
+          -0.1258,
+          -0.0667
+        ]
+      }
+    },
+    "all_nodes": {
+      "balance_vs_counterparties": {
+        "n": 9803,
+        "rho": 0.0262,
+        "p": 0.009577023588013529,
+        "ci95_fisher": [
+          0.0064,
+          0.0459
+        ],
+        "ci95_bootstrap": [
+          0.0056,
+          0.049
+        ]
+      },
+      "balance_vs_betweenness": {
+        "n": 9803,
+        "rho": -0.0746,
+        "p": 1.4270907301944103e-13,
+        "ci95_fisher": [
+          -0.0942,
+          -0.0549
+        ],
+        "ci95_bootstrap": [
+          -0.0957,
+          -0.0543
+        ]
+      }
+    },
+    "core_cluster_share_of_graph": 0.0158,
+    "n_graph_nodes": 9803,
+    "repeat_share_full": 0.8422213022870725,
+    "repeat_share_1w": 0.9167938330442996
+  }
+}

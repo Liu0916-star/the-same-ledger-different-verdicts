@@ -1,0 +1,560 @@
+{
+  "LINK": {
+    "rows": [
+      {
+        "population": "all",
+        "address_type": "all",
+        "unit": "address",
+        "n": 885012,
+        "hhi": 135.0,
+        "gini": 0.9898
+      },
+      {
+        "population": "all",
+        "address_type": "all",
+        "unit": "entity",
+        "n": 884799,
+        "hhi": 561.7,
+        "gini": 0.9898
+      },
+      {
+        "population": "all",
+        "address_type": "excl_burn",
+        "unit": "address",
+        "n": 885011,
+        "hhi": 135.0,
+        "gini": 0.9898
+      },
+      {
+        "population": "all",
+        "address_type": "excl_burn",
+        "unit": "entity",
+        "n": 884798,
+        "hhi": 561.7,
+        "gini": 0.9898
+      },
+      {
+        "population": "all",
+        "address_type": "excl_burn_issuer",
+        "unit": "address",
+        "n": 885004,
+        "hhi": 115.4,
+        "gini": 0.9871
+      },
+      {
+        "population": "all",
+        "address_type": "excl_burn_issuer",
+        "unit": "entity",
+        "n": 884797,
+        "hhi": 193.4,
+        "gini": 0.9871
+      },
+      {
+        "population": "active",
+        "address_type": "all",
+        "unit": "address",
+        "n": 66627,
+        "hhi": 374.9,
+        "gini": 0.9927
+      },
+      {
+        "population": "active",
+        "address_type": "all",
+        "unit": "entity",
+        "n": 66546,
+        "hhi": 505.6,
+        "gini": 0.9928
+      },
+      {
+        "population": "active",
+        "address_type": "excl_burn",
+        "unit": "address",
+        "n": 66627,
+        "hhi": 374.9,
+        "gini": 0.9927
+      },
+      {
+        "population": "active",
+        "address_type": "excl_burn",
+        "unit": "entity",
+        "n": 66546,
+        "hhi": 505.6,
+        "gini": 0.9928
+      },
+      {
+        "population": "active",
+        "address_type": "excl_burn_issuer",
+        "unit": "address",
+        "n": 66627,
+        "hhi": 374.9,
+        "gini": 0.9927
+      },
+      {
+        "population": "active",
+        "address_type": "excl_burn_issuer",
+        "unit": "entity",
+        "n": 66546,
+        "hhi": 505.6,
+        "gini": 0.9928
+      },
+      {
+        "population": "active_airdrop_kept",
+        "address_type": "all",
+        "unit": "address",
+        "n": 565038,
+        "hhi": 135.0,
+        "gini": 0.9841
+      },
+      {
+        "population": "active_airdrop_kept",
+        "address_type": "all",
+        "unit": "entity",
+        "n": 564891,
+        "hhi": 561.7,
+        "gini": 0.9841
+      },
+      {
+        "population": "active_airdrop_kept",
+        "address_type": "excl_burn",
+        "unit": "address",
+        "n": 565038,
+        "hhi": 135.0,
+        "gini": 0.9841
+      },
+      {
+        "population": "active_airdrop_kept",
+        "address_type": "excl_burn",
+        "unit": "entity",
+        "n": 564891,
+        "hhi": 561.7,
+        "gini": 0.9841
+      },
+      {
+        "population": "active_airdrop_kept",
+        "address_type": "excl_burn_issuer",
+        "unit": "address",
+        "n": 565031,
+        "hhi": 115.4,
+        "gini": 0.9799
+      },
+      {
+        "population": "active_airdrop_kept",
+        "address_type": "excl_burn_issuer",
+        "unit": "entity",
+        "n": 564890,
+        "hhi": 193.4,
+        "gini": 0.9799
+      },
+      {
+        "population": "dust_floor",
+        "address_type": "all",
+        "unit": "address",
+        "n": 688010,
+        "hhi": 135.0,
+        "gini": 0.9868
+      },
+      {
+        "population": "dust_floor",
+        "address_type": "all",
+        "unit": "entity",
+        "n": 687834,
+        "hhi": 561.7,
+        "gini": 0.9869
+      },
+      {
+        "population": "dust_floor",
+        "address_type": "excl_burn",
+        "unit": "address",
+        "n": 688009,
+        "hhi": 135.0,
+        "gini": 0.9868
+      },
+      {
+        "population": "dust_floor",
+        "address_type": "excl_burn",
+        "unit": "entity",
+        "n": 687833,
+        "hhi": 561.7,
+        "gini": 0.9869
+      },
+      {
+        "population": "dust_floor",
+        "address_type": "excl_burn_issuer",
+        "unit": "address",
+        "n": 688002,
+        "hhi": 115.4,
+        "gini": 0.9834
+      },
+      {
+        "population": "dust_floor",
+        "address_type": "excl_burn_issuer",
+        "unit": "entity",
+        "n": 687832,
+        "hhi": 193.4,
+        "gini": 0.9834
+      },
+      {
+        "population": "value_floor",
+        "address_type": "all",
+        "unit": "address",
+        "n": 302738,
+        "hhi": 135.4,
+        "gini": 0.973
+      },
+      {
+        "population": "value_floor",
+        "address_type": "all",
+        "unit": "entity",
+        "n": 302674,
+        "hhi": 563.0,
+        "gini": 0.9731
+      },
+      {
+        "population": "value_floor",
+        "address_type": "excl_burn",
+        "unit": "address",
+        "n": 302737,
+        "hhi": 135.4,
+        "gini": 0.973
+      },
+      {
+        "population": "value_floor",
+        "address_type": "excl_burn",
+        "unit": "entity",
+        "n": 302673,
+        "hhi": 563.0,
+        "gini": 0.9731
+      },
+      {
+        "population": "value_floor",
+        "address_type": "excl_burn_issuer",
+        "unit": "address",
+        "n": 302730,
+        "hhi": 115.8,
+        "gini": 0.9659
+      },
+      {
+        "population": "value_floor",
+        "address_type": "excl_burn_issuer",
+        "unit": "entity",
+        "n": 302672,
+        "hhi": 194.0,
+        "gini": 0.966
+      }
+    ],
+    "factors": {
+      "activity": {
+        "hhi_ratio_max": 3.249,
+        "gini_change_max": 0.0129
+      },
+      "floor": {
+        "hhi_ratio_max": 1.003,
+        "gini_change_max": 0.0212,
+        "hhi_change_max": 0.0035
+      },
+      "address_type": {
+        "hhi_ratio_max": 2.904,
+        "gini_change_max": 0.0042
+      },
+      "entity": {
+        "hhi_ratio_max": 4.161,
+        "gini_change_max": 0.0001
+      }
+    },
+    "nofloor_gini_min": 0.9799,
+    "nofloor_gini_max": 0.9928,
+    "hhi_min": 115.4,
+    "hhi_max": 563.0,
+    "gini_min": 0.9659,
+    "gini_max": 0.9928,
+    "argmin": {
+      "population": "all",
+      "address_type": "excl_burn_issuer",
+      "unit": "address"
+    },
+    "argmax": {
+      "population": "value_floor",
+      "address_type": "all",
+      "unit": "entity"
+    }
+  },
+  "UNI": {
+    "rows": [
+      {
+        "population": "all",
+        "address_type": "all",
+        "unit": "address",
+        "n": 382972,
+        "hhi": 895.2,
+        "gini": 0.9977
+      },
+      {
+        "population": "all",
+        "address_type": "all",
+        "unit": "entity",
+        "n": 382806,
+        "hhi": 989.1,
+        "gini": 0.9977
+      },
+      {
+        "population": "all",
+        "address_type": "excl_burn",
+        "unit": "address",
+        "n": 382971,
+        "hhi": 979.3,
+        "gini": 0.9974
+      },
+      {
+        "population": "all",
+        "address_type": "excl_burn",
+        "unit": "entity",
+        "n": 382805,
+        "hhi": 1097.0,
+        "gini": 0.9974
+      },
+      {
+        "population": "all",
+        "address_type": "excl_burn_issuer",
+        "unit": "address",
+        "n": 382969,
+        "hhi": 108.0,
+        "gini": 0.9962
+      },
+      {
+        "population": "all",
+        "address_type": "excl_burn_issuer",
+        "unit": "entity",
+        "n": 382804,
+        "hhi": 177.3,
+        "gini": 0.9962
+      },
+      {
+        "population": "active",
+        "address_type": "all",
+        "unit": "address",
+        "n": 16121,
+        "hhi": 2947.7,
+        "gini": 0.9961
+      },
+      {
+        "population": "active",
+        "address_type": "all",
+        "unit": "entity",
+        "n": 16075,
+        "hhi": 3281.2,
+        "gini": 0.9963
+      },
+      {
+        "population": "active",
+        "address_type": "excl_burn",
+        "unit": "address",
+        "n": 16121,
+        "hhi": 2947.7,
+        "gini": 0.9961
+      },
+      {
+        "population": "active",
+        "address_type": "excl_burn",
+        "unit": "entity",
+        "n": 16075,
+        "hhi": 3281.2,
+        "gini": 0.9963
+      },
+      {
+        "population": "active",
+        "address_type": "excl_burn_issuer",
+        "unit": "address",
+        "n": 16119,
+        "hhi": 381.1,
+        "gini": 0.9914
+      },
+      {
+        "population": "active",
+        "address_type": "excl_burn_issuer",
+        "unit": "entity",
+        "n": 16074,
+        "hhi": 738.3,
+        "gini": 0.9917
+      },
+      {
+        "population": "active_airdrop_kept",
+        "address_type": "all",
+        "unit": "address",
+        "n": 16121,
+        "hhi": 2947.7,
+        "gini": 0.9961
+      },
+      {
+        "population": "active_airdrop_kept",
+        "address_type": "all",
+        "unit": "entity",
+        "n": 16075,
+        "hhi": 3281.2,
+        "gini": 0.9963
+      },
+      {
+        "population": "active_airdrop_kept",
+        "address_type": "excl_burn",
+        "unit": "address",
+        "n": 16121,
+        "hhi": 2947.7,
+        "gini": 0.9961
+      },
+      {
+        "population": "active_airdrop_kept",
+        "address_type": "excl_burn",
+        "unit": "entity",
+        "n": 16075,
+        "hhi": 3281.2,
+        "gini": 0.9963
+      },
+      {
+        "population": "active_airdrop_kept",
+        "address_type": "excl_burn_issuer",
+        "unit": "address",
+        "n": 16119,
+        "hhi": 381.1,
+        "gini": 0.9914
+      },
+      {
+        "population": "active_airdrop_kept",
+        "address_type": "excl_burn_issuer",
+        "unit": "entity",
+        "n": 16074,
+        "hhi": 738.3,
+        "gini": 0.9917
+      },
+      {
+        "population": "dust_floor",
+        "address_type": "all",
+        "unit": "address",
+        "n": 314465,
+        "hhi": 895.2,
+        "gini": 0.9972
+      },
+      {
+        "population": "dust_floor",
+        "address_type": "all",
+        "unit": "entity",
+        "n": 314334,
+        "hhi": 989.1,
+        "gini": 0.9972
+      },
+      {
+        "population": "dust_floor",
+        "address_type": "excl_burn",
+        "unit": "address",
+        "n": 314464,
+        "hhi": 979.3,
+        "gini": 0.9968
+      },
+      {
+        "population": "dust_floor",
+        "address_type": "excl_burn",
+        "unit": "entity",
+        "n": 314333,
+        "hhi": 1097.0,
+        "gini": 0.9969
+      },
+      {
+        "population": "dust_floor",
+        "address_type": "excl_burn_issuer",
+        "unit": "address",
+        "n": 314462,
+        "hhi": 108.0,
+        "gini": 0.9954
+      },
+      {
+        "population": "dust_floor",
+        "address_type": "excl_burn_issuer",
+        "unit": "entity",
+        "n": 314332,
+        "hhi": 177.3,
+        "gini": 0.9954
+      },
+      {
+        "population": "value_floor",
+        "address_type": "all",
+        "unit": "address",
+        "n": 58400,
+        "hhi": 897.5,
+        "gini": 0.9893
+      },
+      {
+        "population": "value_floor",
+        "address_type": "all",
+        "unit": "entity",
+        "n": 58340,
+        "hhi": 991.7,
+        "gini": 0.9894
+      },
+      {
+        "population": "value_floor",
+        "address_type": "excl_burn",
+        "unit": "address",
+        "n": 58399,
+        "hhi": 982.2,
+        "gini": 0.9881
+      },
+      {
+        "population": "value_floor",
+        "address_type": "excl_burn",
+        "unit": "entity",
+        "n": 58339,
+        "hhi": 1100.1,
+        "gini": 0.9882
+      },
+      {
+        "population": "value_floor",
+        "address_type": "excl_burn_issuer",
+        "unit": "address",
+        "n": 58397,
+        "hhi": 108.5,
+        "gini": 0.9825
+      },
+      {
+        "population": "value_floor",
+        "address_type": "excl_burn_issuer",
+        "unit": "entity",
+        "n": 58338,
+        "hhi": 178.0,
+        "gini": 0.9827
+      }
+    ],
+    "factors": {
+      "activity": {
+        "hhi_ratio_max": 4.164,
+        "gini_change_max": 0.0048
+      },
+      "floor": {
+        "hhi_ratio_max": 1.005,
+        "gini_change_max": 0.0137,
+        "hhi_change_max": 0.0046
+      },
+      "address_type": {
+        "hhi_ratio_max": 9.068,
+        "gini_change_max": 0.0047
+      },
+      "entity": {
+        "hhi_ratio_max": 1.937,
+        "gini_change_max": 0.0003
+      }
+    },
+    "nofloor_gini_min": 0.9914,
+    "nofloor_gini_max": 0.9977,
+    "hhi_min": 108.0,
+    "hhi_max": 3281.2,
+    "gini_min": 0.9825,
+    "gini_max": 0.9977,
+    "argmin": {
+      "population": "all",
+      "address_type": "excl_burn_issuer",
+      "unit": "address"
+    },
+    "argmax": {
+      "population": "active",
+      "address_type": "all",
+      "unit": "entity"
+    }
+  }
+}

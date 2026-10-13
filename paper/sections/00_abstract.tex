@@ -1,0 +1,50 @@
+\begin{abstract}
+Whether a public blockchain is ``decentralized'' is routinely settled by
+a concentration statistic. On two ERC-20 ledgers---the Chainlink
+(LINK) oracle token and the Uniswap (UNI) governance token, over the
+same 90-day window---we show that the verdict depends on how the
+statistic is specified. Over eighteen combinations of holder population,
+address type and entity resolution, the balance Herfindahl--Hirschman Index
+(HHI) of UNI runs from \V{combo.uni.nf_hhi_min} to \V{combo.uni.nf_hhi_max}
+and of LINK from \V{combo.link.nf_hhi_min} to \V{combo.link.nf_hhi_max},
+while the balance Gini moves by at most \V{combo.uni.gini_range_nofloor} and
+\V{combo.link.gini_range_nofloor}. The choices act on different ends of the
+distribution: address type and entity resolution move the top, hence the
+HHI; a balance floor moves the tail, hence the Gini, with $1-\mathrm{Gini}$
+rising \V{uni.omg.ratio}- and \V{link.omg.ratio}-fold under a USD~100 floor
+and the HHI changing by at most \V{floor.hhi_change_max}; restricting to
+transfer-active addresses moves both. Implementation matters as much:
+removing a coordinated dust airdrop by rule moves the HHI of active LINK
+holdings from \V{link.hhi.active_noair} to \V{link.hhi.active}, and
+overwriting rather than summing repeated transfers discards
+\V{link.ew.loss_1w} of transferred volume in the transfer graph. Both ledgers are extremely unequal in ownership
+yet unconcentrated in routing, and balance is only weakly related to
+structural position. A blind, degree-matched control finds that a learned
+representation adds no detectable power beyond counterparty count in
+selecting ``hidden brokers''. In the delegated votes the protocol counts,
+\V{uni.gov.n_quorum} UNI delegates reach quorum and none able to propose
+routes the token. We recommend reporting on-chain concentration as a range
+over stated specifications, and list them.
+\end{abstract}
+
+\begin{highlights}
+\item Population, address type and entity resolution move the balance HHI
+of UNI from \V{combo.uni.nf_hhi_min} to \V{combo.uni.nf_hhi_max} while the
+Gini moves by at most \V{combo.uni.gini_range_nofloor}; a balance floor moves
+the Gini instead.
+\item Removing a coordinated dust airdrop, and summing rather than overwriting
+repeated transfers, change which addresses and which graph the statistics
+describe.
+\item Ownership is extremely unequal while routing is unconcentrated, and the
+two are only weakly related across addresses.
+\item A blind, degree-matched control finds no detectable contribution of the
+learned representation to hidden-broker selection beyond counterparty count.
+\item Measured in delegated votes, \V{uni.gov.n_quorum} UNI delegates reach
+quorum; none of those able to propose routes the token.
+\end{highlights}
+
+\begin{keyword}
+Blockchain decentralization \sep Measurement \sep Specification \sep
+Robustness \sep Herfindahl--Hirschman Index \sep Gini coefficient \sep
+Hidden brokers \sep On-chain governance
+\end{keyword}

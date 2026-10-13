@@ -1,0 +1,118 @@
+% =========================================================================
+\section{Data and Graph Construction}
+\label{sec:data}
+
+\paragraph{Ledgers and window}
+We study the Chainlink token (LINK, contract
+\path{0x514910771af9ca656af840dff83e8264ecf986ca}), an oracle-infrastructure
+asset, and the Uniswap governance token (UNI, contract
+\path{0x1f9840a85d5af5bf1d1762f925bdaddc4201f984}), whose design premise is
+broadly distributed community control. Transfers are extracted from
+\path{bigquery-public-data.crypto_ethereum.token_transfers} with an
+identical query for both tokens over the window
+$[\text{2026-03-26},\ \text{2026-06-25})$ UTC: \V{link.tx_raw} LINK and
+\V{uni.tx_raw} UNI transfer records. Holding the window fixed removes market
+regime as a confound between the two ledgers.
+
+\paragraph{Balances}
+Balances are the cumulative net flow of each address over the token's full
+transfer history up to the end of the window, i.e.\ through Ethereum block
+\V{snapshot.block} (2026-06-24 23:59:59 UTC). We validated the reconstruction
+against the chain at that block: for each token the positive balances sum to
+the contract's \texttt{totalSupply()}, and for 20 randomly drawn holders per
+token the reconstructed balance equals \texttt{balanceOf()} exactly. One
+correction was required. The LINK contract credits its entire supply to the
+deployer in its constructor without emitting a \texttt{Transfer} event, so a
+reconstruction from transfers leaves the deployer
+(\texttt{0xf550\ldots1780}) at $-10^{9}$ LINK; adding the genesis allocation
+restores its on-chain balance of \V{link.genesis_balance} LINK exactly. The
+resulting snapshot contains \V{link.holders} LINK and \V{uni.holders} UNI
+addresses with a strictly positive balance.\footnote{The first version of
+this paper used balances extracted without a time bound, on 26 June (LINK) and
+25 July 2026 (UNI). For LINK the two coincide; for UNI the later extraction
+included a month of post-window activity, which changes the balance HHI from
+\V{uni.hhi.v1export} to \V{uni.hhi.all}.}
+
+\paragraph{Cleaning}
+We apply three rules, in this order, to the transfer records; balances are
+unaffected.
+\begin{enumerate}
+  \item \emph{Mint and burn records.} Transfers from the zero address or to
+  the zero or \texttt{0x\ldots dEaD} address are protocol events rather than
+  trades: \V{link.mintburn} on LINK and \V{uni.mintburn} on UNI. All UNI
+  records of this kind are transfers to \texttt{0x\ldots dEaD} produced by the
+  protocol-fee mechanism that governance activated in December 2025
+  (Section~\ref{sec:governance}).
+  \item \emph{Zero-value transfers}, \V{link.zero} on LINK and \V{uni.zero} on
+  UNI. They carry no value and affect no concentration measure, but they add
+  edges and counterparties---the quantity that drives the broker criterion of
+  Section~\ref{sec:brokers}---and they are a known vehicle of address
+  poisoning.
+  \item \emph{Dust airdrops.} A sender is flagged if, within any sliding
+  48-hour window, it sends a transfer of $0 < \text{amount} < 0.01$ tokens to
+  each of more than $N = 1{,}000$ distinct recipients. All of a flagged
+  sender's transfers with $0 < \text{amount} < 0.01$ during the window are
+  removed; its transfers of ordinary size are kept. The rule was written
+  after we had observed the LINK event of Section~\ref{sec:airdrop}; we state
+  it in full so that it can be applied unchanged to other ledgers, and we
+  report its sensitivity to $N$ and to the amount threshold in
+  \ref{app:cleaning}. On LINK it flags \V{link.airdrop_senders} senders and
+  removes \V{link.airdrop_tx} transfers; on UNI it flags none.
+\end{enumerate}
+After cleaning, \V{link.active} LINK and \V{uni.active} UNI addresses send or
+receive at least one transfer in the window, against \V{link.active_raw} and
+\V{uni.active_raw} before. The uncleaned records are used in exactly two
+places: the corresponding row of Table~\ref{tab:spec} and the case study of
+Section~\ref{sec:airdrop}.
+
+\paragraph{Labels}
+Entity labels come from a single snapshot of the public compilation
+\texttt{brianleect/etherscan-labels} (file
+\texttt{data/etherscan/combined/combinedAllLabels.json})
+\cite{brianleect2023labels}, retrieved on 26 August 2026 and archived with the
+code (MD5
+\texttt{16792aac5afd369e6b847c3f0aad1df4}). The compilation's Ethereum labels were last scraped from Etherscan on 18 June
+2023, and its scraper has been marked broken since; our window starts almost
+three years later. The file holds 29{,}945 entries.
+In 173 cases the same address appears twice under different capitalisation
+with different content; after case normalisation we take the union of the
+two label sets and the name of the lower-case entry, leaving 29{,}772
+addresses. A labelled address is assigned to a category by keyword
+(exchange names, DEX and aggregator names, bridges, lending protocols, MEV,
+phishing), and an address is \emph{core} if its category is a centralized
+exchange, a DEX or aggregator, a bridge, or a lending protocol. Throughout,
+``unlabelled'' means absent from this compilation; it does not mean absent
+from Etherscan's own name tags (Section~\ref{sec:verify}).
+
+\paragraph{Graph construction}
+We represent each ledger as a directed graph whose nodes are addresses and
+whose edge $(u,v)$ carries the \emph{sum} of all amounts transferred from $u$
+to $v$ in the window,
+\begin{equation}
+w(u,v) \;=\; \sum_{t \,\in\, \mathcal{T}(u,v)} \mathrm{amount}(t).
+\label{eq:edgeweight}
+\end{equation}
+The summation is not a formality. Building a graph by passing a transfer list
+to \texttt{networkx.from\_pandas\_edgelist} with
+\texttt{create\_using=nx.DiGraph()} keeps only the last record of each
+ordered pair, silently, with the node set, the edge set and the degree
+sequence unchanged. Repeated ordered pairs account for
+\V{link.repeat_full_pct} of cleaned LINK records and \V{uni.repeat_full_pct}
+of UNI records, and for \V{link.repeat_1w_pct} and \V{uni.repeat_1w_pct}
+within the activity-ranked subgraphs defined next; Section~\ref{sec:edgecase}
+shows what the overwrite does downstream.
+
+We analyse the subgraphs induced by the $10^{4}$ and $5\times10^{4}$ most
+active addresses (activity = number of transfer records in which the address
+appears; ties broken by address) and, on LINK, the full cleaned graph. In
+each case we keep the largest weakly connected component. On LINK these
+contain \V{link.nodes.1w}, \V{link.nodes.5w} and \V{link.nodes.full} nodes.
+UNI is an order of magnitude smaller, so we compare the two ledgers at the
+$10^{4}$ scale, where the UNI subgraph contains \V{uni.nodes.1w} nodes. Node features
+are in-degree, out-degree, weighted in- and out-degree, number of distinct
+counterparties, PageRank, sampled betweenness \cite{brandes2001faster} ($k = 500$ pivots;
+$k = 5{,}000$ on the full graph) and balance, with a $\log(1+x)$ transform and
+$z$-scoring. Balance is removed before scaling whenever it is a target, so no
+evaluation predicts balance from itself. Nodes are inserted in address order,
+so sampled betweenness depends only on the data and not on the order in which
+records were read.

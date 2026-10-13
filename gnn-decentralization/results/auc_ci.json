@@ -1,0 +1,432 @@
+{
+  "LINK": {
+    "n_pos": 74,
+    "n": 9656,
+    "auc": {
+      "centrality": {
+        "auc": 0.5764,
+        "ci95": [
+          0.5052,
+          0.6468
+        ]
+      },
+      "structural": {
+        "auc": 0.9084,
+        "ci95": [
+          0.868,
+          0.942
+        ]
+      },
+      "graphsage": {
+        "auc": 0.9489,
+        "ci95": [
+          0.9175,
+          0.9732
+        ]
+      },
+      "centrality_overwrite": {
+        "auc": 0.5475,
+        "ci95": [
+          0.4756,
+          0.6143
+        ]
+      }
+    },
+    "diff": {
+      "graphsage-structural": {
+        "diff": 0.0405,
+        "ci95": [
+          0.0041,
+          0.0811
+        ]
+      },
+      "structural-centrality": {
+        "diff": 0.332,
+        "ci95": [
+          0.2513,
+          0.4059
+        ]
+      },
+      "centrality-centrality_overwrite": {
+        "diff": 0.0288,
+        "ci95": [
+          -0.0334,
+          0.0822
+        ]
+      }
+    },
+    "B": 2000,
+    "fold_mean_auc": {
+      "centrality": 0.609,
+      "structural": 0.9127,
+      "graphsage_single_mean": 0.9297
+    },
+    "single_seed": {
+      "auc": {
+        "graphsage_s42": {
+          "auc": 0.9001,
+          "ci95": [
+            0.8575,
+            0.9355
+          ]
+        },
+        "graphsage_s43": {
+          "auc": 0.9347,
+          "ci95": [
+            0.8931,
+            0.9678
+          ]
+        },
+        "graphsage_s44": {
+          "auc": 0.9384,
+          "ci95": [
+            0.9028,
+            0.9656
+          ]
+        },
+        "graphsage_s45": {
+          "auc": 0.9186,
+          "ci95": [
+            0.8783,
+            0.952
+          ]
+        },
+        "graphsage_s46": {
+          "auc": 0.9355,
+          "ci95": [
+            0.9095,
+            0.9579
+          ]
+        },
+        "graphsage_s47": {
+          "auc": 0.9299,
+          "ci95": [
+            0.89,
+            0.9644
+          ]
+        },
+        "graphsage_s48": {
+          "auc": 0.9053,
+          "ci95": [
+            0.8619,
+            0.9414
+          ]
+        },
+        "graphsage_s49": {
+          "auc": 0.9427,
+          "ci95": [
+            0.9162,
+            0.9649
+          ]
+        },
+        "graphsage_s50": {
+          "auc": 0.9346,
+          "ci95": [
+            0.8954,
+            0.9655
+          ]
+        },
+        "graphsage_s51": {
+          "auc": 0.9293,
+          "ci95": [
+            0.8908,
+            0.9594
+          ]
+        }
+      },
+      "diff_vs_structural": {
+        "graphsage_s42": {
+          "diff": -0.0083,
+          "ci95": [
+            -0.0424,
+            0.0264
+          ]
+        },
+        "graphsage_s43": {
+          "diff": 0.0263,
+          "ci95": [
+            -0.0203,
+            0.0715
+          ]
+        },
+        "graphsage_s44": {
+          "diff": 0.03,
+          "ci95": [
+            -0.004,
+            0.0656
+          ]
+        },
+        "graphsage_s45": {
+          "diff": 0.0103,
+          "ci95": [
+            -0.0312,
+            0.0552
+          ]
+        },
+        "graphsage_s46": {
+          "diff": 0.0272,
+          "ci95": [
+            -0.0052,
+            0.0651
+          ]
+        },
+        "graphsage_s47": {
+          "diff": 0.0215,
+          "ci95": [
+            -0.0164,
+            0.0606
+          ]
+        },
+        "graphsage_s48": {
+          "diff": -0.0031,
+          "ci95": [
+            -0.0439,
+            0.0394
+          ]
+        },
+        "graphsage_s49": {
+          "diff": 0.0343,
+          "ci95": [
+            0.0043,
+            0.0699
+          ]
+        },
+        "graphsage_s50": {
+          "diff": 0.0262,
+          "ci95": [
+            -0.0144,
+            0.0679
+          ]
+        },
+        "graphsage_s51": {
+          "diff": 0.0209,
+          "ci95": [
+            -0.0228,
+            0.0661
+          ]
+        }
+      },
+      "auc_median": 0.9323,
+      "diff_median": 0.0238,
+      "diff_min": -0.0083,
+      "diff_max": 0.0343,
+      "n_ci_excludes_zero": 1,
+      "n_seeds": 10
+    }
+  },
+  "UNI": {
+    "n_pos": 58,
+    "n": 9803,
+    "auc": {
+      "centrality": {
+        "auc": 0.5738,
+        "ci95": [
+          0.4803,
+          0.6645
+        ]
+      },
+      "structural": {
+        "auc": 0.8048,
+        "ci95": [
+          0.7289,
+          0.8712
+        ]
+      },
+      "graphsage": {
+        "auc": 0.8632,
+        "ci95": [
+          0.7968,
+          0.9203
+        ]
+      },
+      "centrality_overwrite": {
+        "auc": 0.5692,
+        "ci95": [
+          0.478,
+          0.6561
+        ]
+      }
+    },
+    "diff": {
+      "graphsage-structural": {
+        "diff": 0.0584,
+        "ci95": [
+          0.0034,
+          0.116
+        ]
+      },
+      "structural-centrality": {
+        "diff": 0.2311,
+        "ci95": [
+          0.1124,
+          0.3436
+        ]
+      },
+      "centrality-centrality_overwrite": {
+        "diff": 0.0045,
+        "ci95": [
+          -0.0425,
+          0.0388
+        ]
+      }
+    },
+    "B": 2000,
+    "fold_mean_auc": {
+      "centrality": 0.5971,
+      "structural": 0.8067,
+      "graphsage_single_mean": 0.8343
+    },
+    "single_seed": {
+      "auc": {
+        "graphsage_s42": {
+          "auc": 0.8295,
+          "ci95": [
+            0.7554,
+            0.8919
+          ]
+        },
+        "graphsage_s43": {
+          "auc": 0.8539,
+          "ci95": [
+            0.7905,
+            0.9082
+          ]
+        },
+        "graphsage_s44": {
+          "auc": 0.8388,
+          "ci95": [
+            0.7668,
+            0.9006
+          ]
+        },
+        "graphsage_s45": {
+          "auc": 0.8288,
+          "ci95": [
+            0.7524,
+            0.8923
+          ]
+        },
+        "graphsage_s46": {
+          "auc": 0.798,
+          "ci95": [
+            0.7112,
+            0.8768
+          ]
+        },
+        "graphsage_s47": {
+          "auc": 0.8435,
+          "ci95": [
+            0.7777,
+            0.9009
+          ]
+        },
+        "graphsage_s48": {
+          "auc": 0.8063,
+          "ci95": [
+            0.7297,
+            0.8712
+          ]
+        },
+        "graphsage_s49": {
+          "auc": 0.8431,
+          "ci95": [
+            0.7716,
+            0.902
+          ]
+        },
+        "graphsage_s50": {
+          "auc": 0.8342,
+          "ci95": [
+            0.7572,
+            0.9011
+          ]
+        },
+        "graphsage_s51": {
+          "auc": 0.8115,
+          "ci95": [
+            0.7272,
+            0.8905
+          ]
+        }
+      },
+      "diff_vs_structural": {
+        "graphsage_s42": {
+          "diff": 0.0247,
+          "ci95": [
+            -0.0271,
+            0.0768
+          ]
+        },
+        "graphsage_s43": {
+          "diff": 0.0491,
+          "ci95": [
+            -0.0096,
+            0.1087
+          ]
+        },
+        "graphsage_s44": {
+          "diff": 0.034,
+          "ci95": [
+            -0.026,
+            0.0895
+          ]
+        },
+        "graphsage_s45": {
+          "diff": 0.024,
+          "ci95": [
+            -0.0275,
+            0.0766
+          ]
+        },
+        "graphsage_s46": {
+          "diff": -0.0068,
+          "ci95": [
+            -0.1026,
+            0.0798
+          ]
+        },
+        "graphsage_s47": {
+          "diff": 0.0387,
+          "ci95": [
+            -0.0127,
+            0.0903
+          ]
+        },
+        "graphsage_s48": {
+          "diff": 0.0015,
+          "ci95": [
+            -0.0565,
+            0.0611
+          ]
+        },
+        "graphsage_s49": {
+          "diff": 0.0383,
+          "ci95": [
+            -0.0161,
+            0.0916
+          ]
+        },
+        "graphsage_s50": {
+          "diff": 0.0294,
+          "ci95": [
+            -0.0451,
+            0.1011
+          ]
+        },
+        "graphsage_s51": {
+          "diff": 0.0067,
+          "ci95": [
+            -0.0761,
+            0.0893
+          ]
+        }
+      },
+      "auc_median": 0.8318,
+      "diff_median": 0.027,
+      "diff_min": -0.0068,
+      "diff_max": 0.0491,
+      "n_ci_excludes_zero": 0,
+      "n_seeds": 10
+    }
+  }
+}

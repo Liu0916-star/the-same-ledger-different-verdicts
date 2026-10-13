@@ -1,0 +1,271 @@
+% =========================================================================
+\section{The Structural Score Across Scales}
+\label{app:instrument}
+
+Table~\ref{tab:scale} repeats the evaluation of Table~\ref{tab:instrument} on
+the larger LINK graphs. The full cleaned graph is not an order of magnitude
+larger than the $5\times10^{4}$ subgraph; the scale effect reported in the
+first version of this paper, where the largest graph had \V{v1.link.nodes.64w}
+nodes, came mostly from the hundreds of thousands of single-receipt airdrop
+recipients that the cleaning rule removes.
+
+\begin{table}[H]
+\centering\small
+\caption{AUC for the core label on LINK at three scales. GraphSAGE: mean
+$\pm$ s.d.\ over 10, 5 and 3 initialisations respectively.}
+\label{tab:scale}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Scale (nodes) & Centrality & Structural & GraphSAGE \\
+\midrule
+$10^{4}$ (\V{link.nodes.1w}) & \V{c1.link.cent} & \V{c1.link.struct} & \V{c1.link.gnn} \\
+$5\times10^{4}$ (\V{link.nodes.5w}) & \V{c1.link.5w.cent} & \V{c1.link.5w.struct} & \V{c1.link.5w.gnn} \\
+Full (\V{link.nodes.full}) & \V{c1.link.full.cent} & \V{c1.link.full.struct} & \V{c1.link.full.gnn} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Neighbourhood purity}
+For each core node we compute the fraction of its ten nearest neighbours in
+the representation that are also core. Table~\ref{tab:purity} reports the
+absolute purity rather than its ratio to the random baseline, because the
+baseline (the positive rate) varies with graph size. The GraphSAGE embedding
+places core nodes near one another more consistently than the structural
+features do.
+
+\begin{table}[H]
+\centering\small
+\caption{Absolute neighbourhood purity of core nodes ($k=10$).}
+\label{tab:purity}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+ & Centrality & Structural & GraphSAGE & Ratio \\
+\midrule
+LINK $10^{4}$ & \V{c1.link.1w.pur.cent} & \V{c1.link.1w.pur.struct} & \V{c1.link.1w.pur.gnn} & \V{c1.link.1w.pur.ratio} \\
+LINK $5\times10^{4}$ & \V{c1.link.5w.pur.cent} & \V{c1.link.5w.pur.struct} & \V{c1.link.5w.pur.gnn} & \V{c1.link.5w.pur.ratio} \\
+LINK full & \V{c1.link.full.pur.cent} & \V{c1.link.full.pur.struct} & \V{c1.link.full.pur.gnn} & \V{c1.link.full.pur.ratio} \\
+UNI $10^{4}$ & \V{c1.uni.1w.pur.cent} & \V{c1.uni.1w.pur.struct} & \V{c1.uni.1w.pur.gnn} & \V{c1.uni.1w.pur.ratio} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Predicting large balances}
+With balance removed from the inputs, the three representations predict
+membership in the top 5\% by balance at similar levels on the $10^{4}$
+subgraphs (LINK: \V{c1.link.1w.bal.cent}, \V{c1.link.1w.bal.struct},
+\V{c1.link.1w.bal.gnn} for centrality, structural features and GraphSAGE;
+UNI: \V{c1.uni.1w.bal.cent}, \V{c1.uni.1w.bal.struct},
+\V{c1.uni.1w.bal.gnn}). In the first version of this paper the GraphSAGE
+embedding was clearly better at this task on LINK; that advantage depended
+on the airdrop transfers (\ref{app:cleaning}).
+
+\paragraph{Roles}
+Clustering the GraphSAGE embedding into eight groups ($k$-means) yields on
+both ledgers one small cluster that is highest in both core rate and median
+balance---\V{link.core.size} LINK nodes with a core rate of \V{link.core.rate}
+and a median of \V{link.core.medcp} counterparties, \V{uni.core.size} UNI
+nodes with \V{uni.core.rate} and \V{uni.core.medcp}---above a periphery of
+low-degree addresses (Table~\ref{tab:typology}). The infrastructure cluster
+is \V{link.core_share} of the LINK subgraph and \V{uni.core_share} of the UNI
+subgraph.
+
+\begin{table*}[t]
+\centering\footnotesize
+\caption{Clusters of the GraphSAGE embedding on the $10^{4}$ subgraphs, sorted
+by core rate. Cluster indices are arbitrary and the two ledgers are aligned by
+rank only.}
+\label{tab:typology}
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{@{}rrrr c rrrr@{}}
+\toprule
+\multicolumn{4}{c}{LINK} & & \multicolumn{4}{c}{UNI} \\
+\cmidrule(r){1-4}\cmidrule(l){6-9}
+Size & Core rate & Med.\ cp. & Med.\ bal. & & Size & Core rate & Med.\ cp. & Med.\ bal. \\
+\midrule
+\V{tab.typology}
+\bottomrule
+\end{tabular}
+\end{table*}
+
+% =========================================================================
+\section{Cleaning Specifications}
+\label{app:cleaning}
+
+\paragraph{Sensitivity of the airdrop rule}
+With the amount threshold at 0.01 LINK, $N = 100$, $500$ and $1{,}000$ flag
+\V{link.clean.n100.senders}, \V{link.clean.n500.senders} and
+\V{link.clean.n1000.senders} senders and remove \V{link.clean.n100.tx},
+\V{link.clean.n500.tx} and \V{link.clean.n1000.tx} transfers. The additional
+senders at $N=100$ are small dust broadcasters spread across the window.
+Raising the amount threshold to 0.1 at $N = 1{,}000$ changes nothing
+(\V{link.clean.amt0.1.senders} senders, \V{link.clean.amt0.1.tx} transfers).
+On UNI the rule flags \V{uni.clean.n1000.senders} senders at $N = 1{,}000$
+and $N = 500$, and \V{uni.clean.n100.senders} at $N=100$.
+
+\paragraph{Data specifications}
+Table~\ref{tab:specdata} reruns the $10^{4}$ analyses under each cleaning
+specification, and with repeated pairs overwritten instead of summed. The
+airdrop transfers are what made GraphSAGE appear better than the structural
+features at predicting large LINK balances in the first version; with them
+removed the two are level. On UNI, where the airdrop rule removes nothing,
+the ``airdrop kept'' and main specifications coincide, as do ``zero-value
+kept'' and ``both kept''; each pair was computed in a separate run and the
+results are identical, which also checks determinism.
+
+\begin{table*}[t]
+\centering\footnotesize
+\caption{The $10^{4}$ analyses under alternative data specifications. AUC:
+core label (structural features, GraphSAGE) and top-5\% balance
+(GraphSAGE). Brokers: size of the hidden-broker set / overlap with the main
+set.}
+\label{tab:specdata}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}l rrrrr rrrrr@{}}
+\toprule
+& \multicolumn{5}{c}{LINK} & \multicolumn{5}{c}{UNI} \\
+\cmidrule(lr){2-6}\cmidrule(l){7-11}
+Specification & Nodes & Struct. & GNN & Bal.\ GNN & Brokers & Nodes & Struct. & GNN & Bal.\ GNN & Brokers \\
+\midrule
+\V{tab.specdata}
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\paragraph{All combinations}
+Table~\ref{tab:combos} crosses the five holder populations, three address
+types and two units of analysis of Table~\ref{tab:spec}.
+
+\begin{table*}[t]
+\centering\footnotesize
+\caption{Balance concentration over the full grid of specifications.
+``Active'': transfer-active after cleaning; ``Active, airdrop kept'': with the
+dust-airdrop transfers counted as activity (zero-value transfers removed);
+$\geq$ 0.01 and $\geq$ USD 100: balance floors in tokens and in value at the
+snapshot price.}
+\label{tab:combos}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lll rr rr@{}}
+\toprule
+& & & \multicolumn{2}{c}{LINK} & \multicolumn{2}{c}{UNI} \\
+\cmidrule(lr){4-5}\cmidrule(l){6-7}
+Population & Address type & Unit & HHI & Gini & HHI & Gini \\
+\midrule
+\V{tab.combos}
+\bottomrule
+\end{tabular}
+\end{table*}
+
+% =========================================================================
+\section{The Matched Control}
+\label{app:control}
+Centralized-exchange addresses: one blind item, a Gate.io deposit address,
+was recorded with its exchange name, and another, an HTX hot wallet, as
+unknown. Before unblinding we fixed the rule that exchange deposit and
+hot-wallet addresses are not routing protocols. Scoring the Gate.io item as
+named instead changes the unmatched group from \V{ctl.uniform_k} to
+\V{ctl.uniform_k_cex} named of ten and leaves every other figure unchanged.
+The blind list, the group key and the scoring script are archived; the
+commit that fixes the rule precedes the commit that unblinds.
+
+% =========================================================================
+\section{Reproducibility}
+\label{app:repro}
+
+\paragraph{Balances and data} Balances are rebuilt from transfers to the
+snapshot block and checked against \texttt{totalSupply()} and a sample of
+\texttt{balanceOf()} calls at that block; the LINK genesis allocation is the
+only correction needed (Section~\ref{sec:data}). The transfer records are
+identical, record for record, to those used in the first version.
+
+\paragraph{Prices and fee contracts} The USD~100 floor uses
+\texttt{latestRoundData()} of the Chainlink LINK/USD feed
+\V{link.feed} (round \V{link.feed_round}, answer \V{link.feed_answer} at
+eight decimals) and UNI/USD feed \V{uni.feed} (round \V{uni.feed_round},
+answer \V{uni.feed_answer}), both read at the snapshot block. The
+\texttt{TokenJar}, releaser and threshold of the fee mechanism are read on
+Ethereum at the first and last block of the window and on
+\V{uni.l2.chains} at the block closest to the end of the window; the
+addresses come from an archived copy of the deployment page
+\cite{uniswap2026deployments} and are checked against each jar's
+\texttt{releaser()}.
+
+\paragraph{Edge weights} Repeated ordered pairs must be summed
+(Section~\ref{sec:edgecase}).
+
+\paragraph{Labels} All label-dependent results use the archived snapshot.
+Its 29{,}945 entries become 29{,}772 addresses after case normalisation; the
+first version of this paper described this difference as drift in the
+upstream compilation, which was a mistake on our part.
+
+\paragraph{Token-transfer view} Manual verification must use Etherscan's
+ERC-20 token-transfer view: a routing contract called by other contracts
+records few transactions of its own. Etherscan name tags also change; one
+router selected here was tagged ``Uniswap V4: Universal Router'' when first
+verified and ``Uniswap: Universal Router v2'' on 6 October 2026.
+
+\paragraph{Determinism} The first version attributed run-to-run variation in
+the embeddings to non-deterministic GPU scatter operations. The main cause
+was that PyTorch Geometric's \texttt{negative\_sampling} draws from Python's
+\texttt{random} module, which seeding PyTorch does not reach. We now seed
+Python, NumPy and PyTorch, train on CPU with deterministic algorithms, give
+gensim a stable hash function so that node2vec does not depend on the
+interpreter's hash seed, break ties in the activity ranking by address, and
+insert graph nodes in address order so that sampled betweenness does not
+depend on the order in which records are read. Two independent runs of the
+pipeline produce byte-identical results. gensim emits an ignored-exception
+message from its BLAS dot-product routine during node2vec training; outputs
+are nonetheless deterministic and consistent with the first version.
+
+\paragraph{Numbers} Every number in the text and tables is generated from the
+archived result files by one script, which also checks each qualitative
+statement in the text against the numbers it rests on.
+
+% =========================================================================
+\section{Changes from the First Version}
+\label{app:changes}
+This version (arXiv v2) corrects and extends the first (v1).
+
+\paragraph{Facts and references}
+Four references in v1 did not correspond to the cited works (Gudgeon et al.,
+Campajola et al., Zarir et al., Grajales et al.) and have been replaced by
+works we checked against their texts; several DOIs and links were corrected.
+Uniswap's proposal threshold is $10^{6}$ UNI of delegated votes, not
+$2.5\times10^{6}$ as stated in v1; we read it, and the quorum, from the
+governor contract. The protocol fee that v1 described as a future possibility
+had been activated in December 2025; Section~\ref{sec:governance} now treats
+it as the central case. Benchmark HHIs without a checkable source (Canadian
+and Swedish banking, LPMCL gold clearing, a card-network figure, a U.S.\
+banking figure, and the Gini benchmarks of a Lorenz figure) were removed or
+replaced by figures computed from public data.
+
+\paragraph{Data and method}
+Balances are now a snapshot at the end of the window for both tokens
+(Section~\ref{sec:data}); v1 used extraction-date balances. Zero-value
+transfers and a coordinated dust airdrop are removed by stated rules, which
+changes the LINK subgraphs and removes v1's apparent scale effect. Training
+is now deterministic (\ref{app:repro}). The rule layer is measured in
+delegated votes rather than balances. Table~\ref{tab:spec} gains rows for
+balance floors, and \ref{app:cleaning} gives the full combination grid.
+
+\paragraph{Findings revised}
+The Gini coefficient is insensitive to choices about the top of the
+distribution but not to balance floors (Section~\ref{sec:grid}). The
+hidden-broker sets are \V{link.brokers} and \V{uni.brokers} addresses rather
+than \V{v1.link.brokers} and \V{v1.uni.brokers}, with \V{shared.brokers}
+rather than \V{v1.shared.brokers} shared; the label compilation they are
+defined against dates from 2023 (Section~\ref{sec:verify}). The difference
+between matched and unmatched controls reported as significant in v1 is not
+significant here. v1's attribution of a cluster-level reversal to edge
+aggregation is withdrawn (Section~\ref{sec:edgecase}); its description of a
+change in the label compilation as upstream drift was a case-normalisation
+artefact of our own; its explanation of non-reproducible embeddings was
+wrong (\ref{app:repro}); and its finding that the learned embedding
+predicts large balances better than structural features depended on the
+airdrop transfers.
+
+\paragraph{Structure}
+The research questions are reduced to three, matched to the three
+contributions; the specification table is in the main text with a reporting
+checklist; the matched control follows the definition of the criterion.

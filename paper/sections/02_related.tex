@@ -1,0 +1,74 @@
+% =========================================================================
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Measuring decentralization}
+Srinivasan and Lee proposed the minimum Nakamoto coefficient---the smallest
+number of entities whose combined share crosses a control threshold, taken
+over the essential subsystems of a protocol---as a summary measure motivated
+by the Gini coefficient and the Lorenz curve \cite{srinivasan2017quantifying}.
+Lin et al.\ measured the distribution of mining power in Bitcoin and Ethereum
+with three metrics (Gini, Shannon entropy, Nakamoto coefficient) at three
+temporal granularities (day, week, month), and showed that a sliding window
+reveals information that fixed windows miss \cite{lin2021measuring}. Their
+design is the closest precedent for our first contribution: it varies the
+metric and the temporal aggregation for one quantity. We vary the
+population, address type, entity resolution, data cleaning and graph
+construction as well, and we report how far each choice moves the verdict
+rather than whether the trend agrees. Sai et al.\ survey the many senses in
+which a public blockchain can be centralized \cite{sai2021taxonomy}, Ovezik
+et al.\ decompose a blockchain system into layers that must be assessed
+separately \cite{ovezik2022sok}, and Campajola et al.\ apply a range of
+complex-systems measures to a comparative collection of platforms
+\cite{campajola2022evolution}. Our ownership, routing and rule layers belong
+to this layered tradition; what we add is a measured routing layer and a
+rule layer stated in the units the protocol actually counts.
+
+\paragraph{Token ownership and token networks}
+Sai et al.\ compute wealth Gini coefficients over all addresses holding a
+balance and report that the five largest ERC-20 tokens all have a Gini close
+to one; for Bitcoin, where they also cluster addresses into entities, the
+Gini rises from $0.65$ to $0.73$ \cite{sai2021wealth}. Nadler and Sch\"ar
+compute the Gini over the 500 largest holders of each decentralized-finance
+token after an iterative mapping that assigns tokens held by pools, lending
+markets, staking and wrapper contracts to their economic beneficiaries
+\cite{nadler2022defi}. Victor and L\"uders characterise the transfer networks
+of ERC-20 tokens \cite{victor2019erc20}, and De Collibus et al.\ document
+preferential attachment and centralisation across Ethereum token transaction
+networks \cite{decollibus2024patterns}. Each of these studies fixes a
+population and a unit of analysis; Table~\ref{tab:lit} records which.
+
+\paragraph{Entity resolution}
+Address clustering is the standard remedy for the fact that one operator
+may control many addresses. Meiklejohn et al.\ introduced clustering
+heuristics for Bitcoin \cite{meiklejohn2013fistful}, and Victor adapted
+them to Ethereum's account model with heuristics based on deposit
+addresses, multiple participation in airdrops and token authorisation
+mechanisms \cite{victor2020clustering}. We resolve entities only through a public label
+compilation (Section~\ref{sec:data}); the resulting figures are therefore
+lower bounds on entity-level concentration.
+
+\paragraph{On-chain governance}
+Fritsch et al.\ analyse the voting power of Compound, Uniswap and ENS from
+complete holder, delegate, proposal and vote data and report a Nakamoto
+coefficient of eleven for Uniswap, counted as the number of delegates
+holding a majority of voting power \cite{fritsch2024voting}. Feichtinger et
+al.\ find that in 17 of 21 decentralized autonomous organisations fewer than
+ten participants control a majority of voting power
+\cite{feichtinger2023hidden}. We use the same delegated-vote quantity and
+relate it to the routing layer, which those studies do not measure.
+
+\paragraph{Brokerage}
+Burt's structural holes \cite{burt1992structural, burt2004structural} and
+Granovetter's weak ties \cite{granovetter1973strength} describe actors whose
+value lies in connecting otherwise separate parts of a network. The
+historical analogue of a shared routing layer is the clearing institution:
+a small number of houses intermediated medieval merchant banking
+\cite{deroover1948medici}, and nineteenth-century U.S.\ clearinghouses
+coordinated nominally independent banks without a statutory mandate
+\cite{gorton1987joint}. Graph neural networks
+\cite{kipf2017semi, velickovic2018graph, hamilton2017inductive} have been
+used for forensic classification on transaction graphs
+\cite{weber2019anti}; we use one to score structural position, and treat
+the choice of scorer as a parameter rather than a contribution
+(Section~\ref{sec:control}).

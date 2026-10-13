@@ -1,11 +1,18 @@
-numpy>=1.24
-pandas>=2.0
+# Minimum versions. For byte-identical results use requirements-lock.txt.
+numpy>=1.26,<2
+pandas>=2.2
 networkx>=3.0
 scipy>=1.10
 scikit-learn>=1.3
 matplotlib>=3.7
 torch>=2.0
 torch-geometric>=2.4
-certifi
-gensim>=4.3          # 仅 02_c1.py / 05_c3_roles.py 的 node2vec 基线需要
-node2vec>=0.4        # 同上
+gensim>=4.3
+node2vec>=0.4
+pyarrow>=14
+requests>=2.31
+eth-abi>=5
+eth-hash[pycryptodome]>=0.5
+# only for re-extracting data from BigQuery (sql/)
+google-cloud-bigquery>=3
+db-dtypes>=1

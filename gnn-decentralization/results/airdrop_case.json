@@ -1,0 +1,45 @@
+{
+  "week_index": 7,
+  "week_tx_raw": 610227,
+  "median_week_tx_raw": 51766.0,
+  "week_ratio_to_median": 11.78818143182784,
+  "n_senders": 80,
+  "n_archived_38_hit": 38,
+  "n_transfers": 549598,
+  "n_transfers_archived_38": 380000,
+  "n_transfers_other": 169598,
+  "archived_per_contract_min": 10000,
+  "archived_per_contract_max": 10000,
+  "n_recipients": 539997,
+  "recipients_single_pct": 0.9822202715941014,
+  "amount_counts": {
+    "0.0014": 459198,
+    "0.0016": 90400
+  },
+  "total_link": 787.5171999952063,
+  "top2_days_share": 1.0,
+  "top2_days": [
+    "2026-05-09",
+    "2026-05-10"
+  ],
+  "share_in_week": 1.0,
+  "others_checked": 42,
+  "others_suspicious": 42,
+  "others_deployers": 6,
+  "with_airdrop": {
+    "n_tx": 608546,
+    "n_addr": 549297,
+    "gini_out": 0.9809785336486297,
+    "gini_in": 0.9995292706244625,
+    "hhi_out": 222.31657896830208,
+    "hhi_in": 209.28260249543504
+  },
+  "without_airdrop": {
+    "n_tx": 58948,
+    "n_addr": 18716,
+    "gini_out": 0.9808688886627045,
+    "gini_in": 0.9821701130300837,
+    "hhi_out": 222.3225920215342,
+    "hhi_in": 209.28826265156482
+  }
+}

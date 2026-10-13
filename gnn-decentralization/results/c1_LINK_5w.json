@@ -1,7 +1,7 @@
 {
   "token": "LINK",
   "scale": "5w",
-  "n_nodes": 49587,
+  "n_nodes": 48840,
   "seeds": [
     42,
     43,
@@ -9,7 +9,7 @@
     45,
     46
   ],
-  "n_anchors": 86,
+  "n_anchors": 87,
   "gnn_input": [
     "in_deg",
     "out_deg",
@@ -22,54 +22,54 @@
   "cv": "StratifiedKFold(5,shuffle=True,seed=42)",
   "preprocessing": "drop balance from raw, THEN log1p+zscore on 7",
   "is_core_centrality": {
-    "auc": 0.6569,
-    "sd_fold": 0.0718
+    "auc": 0.6365,
+    "sd_fold": 0.0405
   },
   "is_core_raw_struct": {
-    "auc": 0.9137,
-    "sd_fold": 0.0526
+    "auc": 0.9208,
+    "sd_fold": 0.0193
   },
   "balance_top5pct_centrality": {
-    "auc": 0.7916,
-    "sd_fold": 0.003
-  },
-  "balance_top5pct_raw_struct": {
-    "auc": 0.8118,
+    "auc": 0.8141,
     "sd_fold": 0.0108
   },
+  "balance_top5pct_raw_struct": {
+    "auc": 0.8234,
+    "sd_fold": 0.0027
+  },
   "gnn_is_core": {
-    "mean": 0.9209,
-    "sd_seed": 0.0107,
-    "min": 0.9069,
-    "max": 0.9301
+    "mean": 0.9305,
+    "sd_seed": 0.0262,
+    "min": 0.8871,
+    "max": 0.9532
   },
   "gnn_balance": {
-    "mean": 0.8696,
-    "sd_seed": 0.0167,
-    "min": 0.8439,
-    "max": 0.8886
+    "mean": 0.7691,
+    "sd_seed": 0.0283,
+    "min": 0.7237,
+    "max": 0.7994
   },
   "gnn_nofeat_is_core": {
-    "mean": 0.4914,
-    "sd_seed": 0.1279,
-    "min": 0.3125,
-    "max": 0.6533
+    "mean": 0.5485,
+    "sd_seed": 0.0289,
+    "min": 0.5148,
+    "max": 0.5766
   },
   "purity": {
-    "mean": 0.2607,
-    "sd_seed": 0.0312,
-    "min": 0.2244,
-    "max": 0.3012
+    "mean": 0.2726,
+    "sd_seed": 0.0316,
+    "min": 0.2333,
+    "max": 0.3046
   },
   "enrichment": {
-    "mean": 150.3165,
-    "sd_seed": 18.0115,
-    "min": 129.3982,
-    "max": 173.6484
+    "mean": 153.0565,
+    "sd_seed": 17.7207,
+    "min": 130.9885,
+    "max": 170.9948
   },
-  "enrichment_centrality": 4.7,
-  "enrichment_raw_struct": 57.0,
-  "purity_centrality": 0.0081,
-  "purity_raw_struct": 0.0988,
-  "random_baseline_purity": 0.00173
+  "enrichment_centrality": 6.5,
+  "enrichment_raw_struct": 58.7,
+  "purity_centrality": 0.0115,
+  "purity_raw_struct": 0.1046,
+  "random_baseline_purity": 0.00178
 }

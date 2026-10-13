@@ -1,0 +1,65 @@
+{
+  "token_jar": "0xf38521f130fccf29db1961597bc5d2b60f995f85",
+  "window_start": {
+    "block": 24738010,
+    "releaser": "0x0d5cd355e2abeb8fb1552f56c965b867346d6721",
+    "owner": "0x1a9c8182c09f50c8318d769245bea52c32be35bc",
+    "threshold_uni": 4000.0
+  },
+  "window_end": {
+    "block": 25390910,
+    "releaser": "0x0d5cd355e2abeb8fb1552f56c965b867346d6721",
+    "owner": "0x1a9c8182c09f50c8318d769245bea52c32be35bc",
+    "threshold_uni": 4000.0
+  },
+  "l2": [
+    {
+      "chain": "Base",
+      "token_jar": "0x9bd25e67bf390437c8faf480ac735a27bcf6168c",
+      "releaser_listed": "0xff77c0ed0b6b13a20446969107e5867abc46f53a",
+      "releaser_type_on_page": "OptimismBridgedResourceFirepit",
+      "rpc": "https://mainnet.base.org",
+      "window_end_block": 47778126,
+      "read_at": "window_end",
+      "releaser_onchain": "0xff77c0ed0b6b13a20446969107e5867abc46f53a",
+      "releaser_matches_page": true,
+      "threshold_uni": 2000.0
+    },
+    {
+      "chain": "Optimism",
+      "token_jar": "0xb13285df724ea75f3f1e9912010b7e491dcd5ee3",
+      "releaser_listed": "0x94460443ca27ffc1baeca61165fde18346c91abd",
+      "releaser_type_on_page": "OptimismBridgedResourceFirepit",
+      "rpc": "https://mainnet.optimism.io",
+      "window_end_block": 153373411,
+      "read_at": "window_end",
+      "releaser_onchain": "0x94460443ca27ffc1baeca61165fde18346c91abd",
+      "releaser_matches_page": true,
+      "threshold_uni": 2000.0
+    },
+    {
+      "chain": "Arbitrum",
+      "token_jar": "0x95e337c5b155385945d407f5396387d0c2a3a263",
+      "releaser_listed": "0xb8018422bce25d82e70cb98fda96a4f502d89427",
+      "releaser_type_on_page": "Releaser (type not stated)",
+      "rpc": "https://arb1.arbitrum.io/rpc",
+      "window_end_block": 477013371,
+      "read_at": "window_end",
+      "releaser_onchain": "0xb8018422bce25d82e70cb98fda96a4f502d89427",
+      "releaser_matches_page": true,
+      "threshold_uni": 2000.0
+    },
+    {
+      "chain": "Unichain",
+      "token_jar": "0xd576bdf6b560079a4c204f7644e556dbb19140b5",
+      "releaser_listed": "0xe0a780e9105ac10ee304448224eb4a2b11a77eeb",
+      "releaser_type_on_page": "OptimismBridgedResourceFirepit",
+      "rpc": "https://mainnet.unichain.org",
+      "window_end_block": 51597240,
+      "read_at": "window_end",
+      "releaser_onchain": "0xe0a780e9105ac10ee304448224eb4a2b11a77eeb",
+      "releaser_matches_page": true,
+      "threshold_uni": 2000.0
+    }
+  ]
+}

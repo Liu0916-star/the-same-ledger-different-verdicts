@@ -1,0 +1,24 @@
+{
+  "sweden_credit_institutions_assets_hhi": {
+    "2020": 791.0,
+    "2021": 773.0,
+    "2022": 877.0,
+    "2023": 838.0,
+    "2024": 797.0,
+    "2025": 770.0
+  },
+  "global_card_networks": {
+    "year": 2022,
+    "source": "Nilson Report Issue 1241 (May 2023)",
+    "shares_pct": {
+      "UnionPay": 43.8,
+      "Visa": 32.26,
+      "Mastercard": 18.16,
+      "American Express": 4.26
+    },
+    "residual_pct": 1.53,
+    "hhi_lower": 3306.3,
+    "hhi_upper": 3308.7,
+    "hhi_top4_only": 3410.2
+  }
+}

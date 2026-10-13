@@ -1,162 +1,171 @@
 {
   "token": "LINK",
-  "n_windows": 12,
-  "skipped_outlier_windows": [
-    7
-  ],
-  "anomaly_windows": [
-    6
-  ],
+  "n_windows": 13,
+  "skipped_outlier_windows": [],
+  "anomaly_windows": [],
   "ref_window": 1,
   "alignment_diag": [
     {
       "window": 2,
-      "anchors": 3427,
-      "resid_before": 92.3,
-      "resid_after": 85.09,
+      "anchors": 3255,
+      "resid_before": 89.07,
+      "resid_after": 81.04,
       "improved": true
     },
     {
       "window": 3,
-      "anchors": 3002,
-      "resid_before": 99.64,
-      "resid_after": 81.65,
+      "anchors": 2892,
+      "resid_before": 93.53,
+      "resid_after": 77.08,
       "improved": true
     },
     {
       "window": 4,
-      "anchors": 2592,
-      "resid_before": 86.49,
-      "resid_after": 75.87,
+      "anchors": 2522,
+      "resid_before": 83.26,
+      "resid_after": 71.82,
       "improved": true
     },
     {
       "window": 5,
-      "anchors": 2345,
-      "resid_before": 77.68,
-      "resid_after": 71.43,
+      "anchors": 2282,
+      "resid_before": 75.21,
+      "resid_after": 67.95,
       "improved": true
     },
     {
       "window": 6,
-      "anchors": 2486,
-      "resid_before": 82.76,
-      "resid_after": 73.3,
+      "anchors": 2403,
+      "resid_before": 87.83,
+      "resid_after": 71.53,
+      "improved": true
+    },
+    {
+      "window": 7,
+      "anchors": 2297,
+      "resid_before": 81.48,
+      "resid_after": 72.46,
       "improved": true
     },
     {
       "window": 8,
-      "anchors": 2273,
-      "resid_before": 74.45,
-      "resid_after": 68.44,
+      "anchors": 2195,
+      "resid_before": 71.66,
+      "resid_after": 65.19,
       "improved": true
     },
     {
       "window": 9,
-      "anchors": 2230,
-      "resid_before": 74.9,
-      "resid_after": 67.84,
+      "anchors": 2224,
+      "resid_before": 70.57,
+      "resid_after": 66.75,
       "improved": true
     },
     {
       "window": 10,
-      "anchors": 2454,
-      "resid_before": 80.32,
-      "resid_after": 76.11,
+      "anchors": 2450,
+      "resid_before": 80.42,
+      "resid_after": 72.68,
       "improved": true
     },
     {
       "window": 11,
-      "anchors": 2508,
-      "resid_before": 80.78,
-      "resid_after": 77.14,
+      "anchors": 2502,
+      "resid_before": 80.65,
+      "resid_after": 75.39,
       "improved": true
     },
     {
       "window": 12,
-      "anchors": 2069,
-      "resid_before": 74.95,
-      "resid_after": 68.64,
+      "anchors": 2063,
+      "resid_before": 79.54,
+      "resid_after": 67.35,
       "improved": true
     },
     {
       "window": 13,
-      "anchors": 2027,
-      "resid_before": 89.61,
-      "resid_after": 74.25,
+      "anchors": 2018,
+      "resid_before": 87.01,
+      "resid_after": 72.38,
       "improved": true
     }
   ],
-  "alignment_ok": "11/11",
-  "min_anchors": 2027,
-  "n_persistent_elite": 157,
+  "alignment_ok": "12/12",
+  "min_anchors": 2018,
+  "n_persistent_elite": 149,
   "elite_drift": [
     {
       "from": 1,
       "to": 2,
-      "drift": 1.2716,
+      "drift": 1.3259,
       "is_outlier": false
     },
     {
       "from": 2,
       "to": 3,
-      "drift": 1.4411,
+      "drift": 1.4534,
       "is_outlier": false
     },
     {
       "from": 3,
       "to": 4,
-      "drift": 1.4691,
+      "drift": 1.3737,
       "is_outlier": false
     },
     {
       "from": 4,
       "to": 5,
-      "drift": 1.1974,
+      "drift": 1.2076,
       "is_outlier": false
     },
     {
       "from": 5,
       "to": 6,
-      "drift": 1.1771,
+      "drift": 1.2962,
       "is_outlier": false
     },
     {
       "from": 6,
+      "to": 7,
+      "drift": 1.4034,
+      "is_outlier": false
+    },
+    {
+      "from": 7,
       "to": 8,
-      "drift": 1.3131,
+      "drift": 1.3027,
       "is_outlier": false
     },
     {
       "from": 8,
       "to": 9,
-      "drift": 1.2607,
+      "drift": 1.2485,
       "is_outlier": false
     },
     {
       "from": 9,
       "to": 10,
-      "drift": 1.3473,
+      "drift": 1.3031,
       "is_outlier": false
     },
     {
       "from": 10,
       "to": 11,
-      "drift": 1.341,
+      "drift": 1.257,
       "is_outlier": false
     },
     {
       "from": 11,
       "to": 12,
-      "drift": 1.3883,
+      "drift": 1.5251,
       "is_outlier": false
     },
     {
       "from": 12,
       "to": 13,
-      "drift": 1.8619,
+      "drift": 1.7349,
       "is_outlier": false
     }
   ],
-  "normal_drift_mean": 1.3699
+  "normal_drift_mean": 1.3693
 }

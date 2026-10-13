@@ -1,0 +1,13 @@
+rank,delegate,votes,share_of_delegated,label_snapshot_name,etherscan_identity,identity_source,type,checked_on
+1,0x11da8ae234edd16b135edc47e5d9becc8717ecdc,15003219,0.0716,,lillac.eth,ENS name shown by Etherscan,EOA,2026-10-06
+2,0x465f39229c30d8171c540a9411d1b6bd894f8aa3,14986062,0.0715,,,no public name tag on Etherscan,EOA,2026-10-06
+3,0x19d373d0f95f00d368a8d57605af746c4ea9b1d0,9295469,0.0443,,,no public name tag on Etherscan,EOA,2026-10-06
+4,0x53689948444cfd03d2ad77266b05e61b8eed3132,9003040,0.0429,,,no public name tag on Etherscan,EOA,2026-10-06
+5,0x030d6830dc8ff125850390da620fa3e12decd437,9000000,0.0429,,,no public name tag on Etherscan,EOA,2026-10-06
+6,0x6d714455d4b28595d4085aa7c8e4f499492875c3,8007643,0.0382,,ianlapham.eth,ENS name shown by Etherscan,EOA,2026-10-06
+7,0xe7925d190aea9279400cd9a005e33ceb9389cc2b,8002091,0.0382,Variant Fund,Variant Fund,Etherscan public name tag,EOA,2026-10-06
+8,0x1d8f369f05343f5a642a78bd65ff0da136016452,8000001,0.0382,,,no public name tag on Etherscan,EOA,2026-10-06
+9,0x5f246d7d19aa612d6718d27c1da1ee66859586b0,7300000,0.0348,,,no public name tag on Etherscan,EOA,2026-10-06
+10,0x88e15721936c6eba757a27e54e7ae84b1ea34c05,7250000,0.0346,,,no public name tag on Etherscan,EOA,2026-10-06
+balance-spec,0xf977814e90da44bfa03b6295a0616a897441acec,0,,Binance,Binance,label snapshot,EOA,2026-10-06
+balance-spec,0x61cb39bece033c5bda281747db1c15cced2096eb,0,,,,no public name tag on Etherscan,EOA,2026-10-06

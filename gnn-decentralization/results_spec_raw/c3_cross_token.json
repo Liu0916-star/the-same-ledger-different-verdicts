@@ -1,0 +1,109 @@
+{
+  "tokens": [
+    "LINK",
+    "UNI"
+  ],
+  "n_shared": 5,
+  "shared": [
+    "0x1231deb6f5749ef6ce6943a275a1d3e7486f4eae",
+    "0x3611b82c7b13e72b26eb0e9be0613bee7a45ac7c",
+    "0x4c82d1fbfe28c977cbb58d8c7ff8fcf9f70a2cca",
+    "0x7f54f05635d15cde17a49502fedb9d1803a3be8a",
+    "0xebe0fa42523f69ea1e97f5b08282654c19c2c0ee"
+  ],
+  "claimed_aggregator_status": {
+    "0x Protocol": [
+      {
+        "status": "both",
+        "address": "0x7f54f05635d15cde17a49502fedb9d1803a3be8a",
+        "identity": "0x Protocol Router"
+      },
+      {
+        "status": "LINK only",
+        "address": "0xf48a3f7c0575c85cf4529aa220caf3c055773f1c",
+        "identity": "0x Protocol: MainnetSettler"
+      }
+    ],
+    "MetaMask": [
+      {
+        "status": "UNI only",
+        "address": "0x74de5d4fcbf63e00296fd95d33236b9794016631",
+        "identity": "MetaMask: Swaps Spender"
+      }
+    ],
+    "1inch": [
+      {
+        "status": "neither",
+        "address": "0x990636ecb3ff04d33d92e970d3d588bf5cd8d086",
+        "identity": "1inch: Aggregation Executor 5"
+      },
+      {
+        "status": "LINK only",
+        "address": "0x111111125421ca6dc452d289314280a0f8842a65",
+        "identity": "1inch: Aggregation Router V6"
+      }
+    ],
+    "Mayan": [
+      {
+        "status": "neither",
+        "address": "0xd78d199f8c402e7b5cc2abe278df0412400a3bae",
+        "identity": "Mayan: Swift v2 Destination"
+      }
+    ],
+    "LI.FI": [
+      {
+        "status": "both",
+        "address": "0x1231deb6f5749ef6ce6943a275a1d3e7486f4eae",
+        "identity": "LI.FI: LiFi Diamond"
+      }
+    ],
+    "Uniswap X": [
+      {
+        "status": "LINK only",
+        "address": "0x225a38bc71102999dd13478bfabd7c4d53f2dc17",
+        "identity": "Rizzolver: Uniswap X"
+      }
+    ],
+    "Uniswap V4 Universal Router": [
+      {
+        "status": "LINK only",
+        "address": "0x66a9893cc07d91d95644aedd05d03f95e1dba8af",
+        "identity": "Uniswap V4: Universal Router"
+      },
+      {
+        "status": "both",
+        "address": "0x4c82d1fbfe28c977cbb58d8c7ff8fcf9f70a2cca",
+        "identity": "Uniswap: Universal Router (v2 ChainedActions)"
+      }
+    ],
+    "Bitget": [
+      {
+        "status": "LINK only",
+        "address": "0xbc1d9760bd6ca468ca9fb5ff2cfbeac35d86c973",
+        "identity": "Bitget: DEX Aggregator"
+      }
+    ],
+    "Velora": [
+      {
+        "status": "LINK only",
+        "address": "0x6a000f20005980200259b80c5102003040001068",
+        "identity": "Velora: Augustus V6.2"
+      }
+    ],
+    "OKX": [
+      {
+        "status": "LINK only",
+        "address": "0x28b1dc1a5e3699a428bc51d234dfab7c9cb2a183",
+        "identity": "OKX Labs: DEX Router 2"
+      }
+    ]
+  },
+  "shared_identified": {
+    "0x1231deb6f5749ef6ce6943a275a1d3e7486f4eae": "LI.FI: LiFi Diamond",
+    "0x4c82d1fbfe28c977cbb58d8c7ff8fcf9f70a2cca": "Uniswap: Universal Router (v2 ChainedActions)",
+    "0x7f54f05635d15cde17a49502fedb9d1803a3be8a": "0x Protocol Router"
+  },
+  "n_identified": 3,
+  "n_unidentified": 2,
+  "verification_table_size": 42
+}

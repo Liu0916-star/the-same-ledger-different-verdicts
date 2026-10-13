@@ -1,0 +1,120 @@
+% =========================================================================
+\section{Introduction}
+\label{sec:intro}
+
+Whether a public blockchain is ``decentralized'' is routinely settled by
+citing a single concentration statistic: a Gini coefficient of token
+holdings, a top-$k$ share, a Nakamoto coefficient, or a
+Herfindahl--Hirschman Index (HHI). Early whitepapers
+\cite{nakamoto2008bitcoin, wood2014ethereum} described public ledgers as
+engines of disintermediation, and an empirical literature has since asked
+how far practice has departed from that description
+\cite{srinivasan2017quantifying, sai2021taxonomy, ovezik2022sok,
+campajola2022evolution}. Token ledgers in particular are reported to be
+extremely unequal: the largest ERC-20 tokens have Gini coefficients close
+to one \cite{sai2021wealth}, and decentralized-finance governance tokens are
+held by a small number of addresses once custodial contracts are mapped to
+their beneficiaries \cite{nadler2022defi}.
+
+Each of these numbers is the output of a measurement that requires choices
+the ledger does not make for the analyst. Which holders count? Are burn
+addresses, issuer reserves and protocol contracts market participants? Is
+the unit of analysis an address or the entity that controls it? Over what
+horizon are flows aggregated? Which transfers are data and which are spam?
+How are repeated transfers between the same pair of addresses represented?
+None of these questions has an answer that the data dictate, and every
+answer is defensible. This paper asks how much they matter, on two ERC-20
+ledgers observed over an identical 90-day window: the Chainlink (LINK)
+oracle token and the Uniswap (UNI) governance token.
+
+\subsection{Research questions}
+\label{sec:rq-list}
+We organise the analysis around three questions, each answered by one
+contribution.
+\begin{itemize}
+  \item \textbf{RQ1 (specification).} On a single ledger, how far do the
+  discretionary choices of a concentration measurement---holder population,
+  address type, entity resolution, temporal aggregation, flow direction,
+  data cleaning and graph construction---move the verdict, and does the
+  Gini coefficient move with the HHI?
+  \item \textbf{RQ2 (hidden brokers).} A parameterised criterion selects
+  addresses that are structurally central, hold zero or dust balances, and
+  carry no label in a reference label set. What does the selection depend on: the
+  representation used to score centrality, the counterparty count, the
+  data-cleaning specification, or the label set?
+  \item \textbf{RQ3 (layers).} How are the ownership, routing and rule
+  layers of a token ledger related, and does the rule layer have the
+  authority to change the routing layer?
+\end{itemize}
+
+\subsection{Contributions}
+
+\paragraph{C1: Specification dependence of on-chain concentration}
+Three choices act on balance concentration (holder population, address
+type, entity resolution), two on flow concentration (temporal aggregation,
+flow direction), and two implementation choices act on everything
+downstream (data cleaning, edge aggregation). Over the eighteen
+combinations of the three balance choices (\ref{app:cleaning}) the
+balance HHI of UNI ranges from \V{combo.uni.nf_hhi_min} to
+\V{combo.uni.nf_hhi_max}, a factor of \V{combo.uni.nf_hhi_ratio}, and of
+LINK from \V{combo.link.nf_hhi_min} to \V{combo.link.nf_hhi_max}, while the
+balance Gini moves by at most \V{combo.uni.gini_range_nofloor} and
+\V{combo.link.gini_range_nofloor}. The choices act on different ends of the
+distribution. Address type and entity resolution move the top: on either
+ledger they change the HHI by up to a factor of \V{fx.top.hhi_max} and the
+Gini by at most \V{fx.top.gini_max}. A balance floor moves the tail: a USD~100
+floor raises $1-\mathrm{Gini}$ \V{link.omg.ratio}-fold on LINK and
+\V{uni.omg.ratio}-fold on UNI and changes the HHI by at most
+\V{floor.hhi_change_max}. Restricting the population to transfer-active
+addresses moves both (Table~\ref{tab:spec}). Two of the rows
+are not matters of taste but of implementation. A rule-based removal of a
+coordinated dust airdrop on LINK---\V{link.airdrop_tx} transfers from
+\V{link.airdrop_senders} senders---removes \V{link.active_drop_pct} of the
+addresses that would otherwise count as transfer-active and moves the
+balance HHI of that population from \V{link.hhi.active_noair} to
+\V{link.hhi.active}. And whether repeated transfers between an address pair
+are summed or overwritten, a one-line choice in a standard graph library,
+discards \V{link.ew.loss_1w} of transferred volume in the activity-ranked
+subgraph and changes which addresses the
+broker criterion selects (Section~\ref{sec:edgecase}). We set out
+which published studies use which specification
+(Table~\ref{tab:lit}) and recommend that on-chain concentration be reported
+as a specified range.
+
+\paragraph{C2: A parameterised criterion for hidden brokers, and what it
+depends on}
+A \emph{hidden broker} is an address that, under a structural score $s$ and
+a reference label set $L$, falls in the top percentile of $s$, holds no
+more than the median balance, has at least five counterparties and
+non-zero sampled betweenness, and is unlabelled in $L$. Stating $s$, $L$
+and the data specification as parameters is the point: we show how the
+selected set moves with each. Under the main specification the criterion
+selects \V{link.brokers} addresses on LINK and \V{uni.brokers} on UNI,
+\V{shared.brokers} of them common to both. A counterparty-matched control
+drawn from the same eligibility pool and verified blind tests whether the
+representation used to compute $s$ adds anything beyond the counterparty
+condition (Section~\ref{sec:control}). It does not detect any: matched
+controls resolve to named routing protocols about as often as the selected
+brokers.
+
+\paragraph{C3: Three layers, one of them able to rewrite the others}
+Across addresses, balance and structural position are only weakly
+rank-correlated (Section~\ref{sec:wealth-power}), which is how a Gini near
+one coexists with an unconcentrated routing layer. On UNI we add a rule
+layer measured in delegated votes, the quantity Uniswap governance actually
+counts. At the end of the window \V{uni.gov.deleg_share} of the supply was
+delegated; \V{uni.gov.n_quorum} delegates sufficed to reach the
+$4\times10^{7}$ UNI quorum; and none of the \V{uni.gov.n_eligible}
+delegates able to submit a proposal appears among the hundred largest
+senders of UNI. The rule layer is not hypothetical: three months before the
+window, governance activated a protocol fee and burned $10^{8}$ UNI from
+the treasury, and the fee mechanism burned a further \V{uni.burn.window}
+UNI during the window (Section~\ref{sec:governance}).
+
+The remainder of the paper is organised as follows.
+Section~\ref{sec:related} reviews related work and Section~\ref{sec:data}
+describes the data, the cleaning rules and the graph construction.
+Sections~\ref{sec:spec}, \ref{sec:brokers} and~\ref{sec:layers} answer
+RQ1--RQ3 in turn, Section~\ref{sec:airdrop} documents the airdrop that the
+cleaning rule removes, and Sections~\ref{sec:limitations}
+and~\ref{sec:conclusion} discuss limitations and conclude.

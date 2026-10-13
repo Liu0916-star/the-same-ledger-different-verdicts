@@ -1,0 +1,20 @@
+address,verified_identity,evidence,source
+0xb92fe925dc43a0ecde6c8b1a2709c170ec4fff4f,Relay: Router V3,"标签/源码（Etherscan Name Tag ""Relay: Router V3"" + 已验证源码 + #Relay标签）",broker_identities.csv
+0x7f51c134230eb9e5aba42bc364d3d3eba26d9712,Unlabelled routing contract,行为推断（无Name Tag、无验证源码，ERC-20转账超1万笔，与SushiSwap/MEV Bot等多对手方交互）,broker_identities.csv
+0xce937da1ffd21673aa1e063459873f30189a2193,Unlabelled routing contract,行为推断（无Name Tag，源码已验证但部署者无明确协议归属，ERC-20转账超1万笔，与Market Maker/OKX DEX Router等交互）,broker_identities.csv
+0x8f10b468b06c6fd214b65f87778827f7d113f996,Unlabelled routing contract,行为推断（无Name Tag、无验证源码，ERC-20转账超1万笔，高频Swap与Uniswap V3等DEX交互）,broker_identities.csv
+0x50d3865a63d52c0a54e4679949647ea752107390,MEV Bot,"标签（Etherscan Name Tag ""MEV Bot: 0x50d3...390"" + #MEV Bot标签）",broker_identities.csv
+0x09ad820aac5779683b481c4674208a4e1b024afa,Unlabelled routing contract,行为推断（无Name Tag，源码仅Similar Match验证且有构造函数警告，部署者无明确归属，ERC-20转账超1万笔，与Curve/Uniswap/Fly DEX Aggregator交互）,broker_identities.csv
+0x595c31c6108babc43caa81ab759a4aae91801a82,Unlabelled routing contract,行为推断（无Name Tag、无验证源码，ERC-20转账超1万笔，经Bitget DEX Aggregator/Bebop Blend等聚合器Swap）,broker_identities.csv
+0x74de5d4fcbf63e00296fd95d33236b9794016631,MetaMask: Swaps Spender,"标签/源码（Etherscan Name Tag ""MetaMask: Swaps Spender"" + 已验证源码(Proxy) + #MetaMask标签）",broker_identities.csv
+0xd78d199f8c402e7b5cc2abe278df0412400a3bae,Mayan: Swift v2 Destination,"标签/源码（Etherscan Name Tag ""Mayan: Swift v2 Destination"" + 已验证源码 + #Mayan标签）",broker_identities.csv
+0x225a38bc71102999dd13478bfabd7c4d53f2dc17,Rizzolver: Uniswap X,"标签（Etherscan Name Tag ""Rizzolver: Uniswap X"" + #DeFi标签）",broker_identities.csv
+0x4c82d1fbfe28c977cbb58d8c7ff8fcf9f70a2cca,Uniswap: Universal Router (v2 ChainedActions),源码（已验证源码Exact Match，合约名UniversalRouter，EIP712('UniversalRouter'|'2')，导入Uniswap V4模块，无公开Name Tag）,broker_identities.csv
+0x111111125421ca6dc452d289314280a0f8842a65,1inch: Aggregation Router V6,"标签/源码（Etherscan Name Tag ""1inch: Aggregation Router V6"" + 已验证源码 + #1inch/#Router标签）",broker_identities.csv
+0x6a000f20005980200259b80c5102003040001068,Velora: Augustus V6.2,"标签/源码（Etherscan Name Tag ""Velora: Augustus V6.2"" + 已验证源码(Proxy) + 部署者为Velora: Deployer 1 + #Velora标签）",broker_identities.csv
+0x28b1dc1a5e3699a428bc51d234dfab7c9cb2a183,OKX Labs: DEX Router 2,"标签/源码（Etherscan Name Tag ""OKX Labs: DEX Router 2"" + 已验证源码 + #OKX Labs/#DEX/#Router标签）",broker_identities.csv
+0x63242a4ea82847b20e506b63b0e2e2eff0cc6cb0,KyberSwap: Aggregator Executor V3,"标签（Etherscan Name Tag ""KyberSwap: Aggregator Executor V3"" + #KyberSwap/#DEX标签，代理合约）",broker_identities.csv
+0x3d90f66b534dd8482b181e24655a9e8265316be9,Unlabelled routing contract,行为推断（无Name Tag，代理合约源码已验证但部署者无明确协议归属，46万+交易，ERC-20转账超1万笔，与Uniswap V2多代币池高频swap）,control_blind.csv
+0x017272088ba6d435ec780c1066a397afb001f4ea,Unlabelled routing contract,"行为推断（无Name Tag、无验证源码，7,029笔交易，ERC-20转账超1万笔，方法Unlock与Uniswap V2/V3/Curve等多DEX路由swap）",control_blind.csv
+0x5e1f62dac767b0491e3ce72469c217365d5b48cc,OKX Labs: Old DEX Router 8,"标签/源码（Etherscan Name Tag ""OKX Labs: Old DEX Router 8"" + 已验证源码 + #OKX Labs/#DEX/#Router标签）",control_blind.csv
+0x00c600b30fb0400701010f4b080409018b9006e0,Velora: Executor,"标签（Etherscan Name Tag ""Velora: Executor""，部署者为Velora: Deployer 1）",control_blind.csv

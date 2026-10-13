@@ -1,0 +1,158 @@
+{
+  "n_raw": 1233497,
+  "active_raw": 642125,
+  "n_mint_burn": 3,
+  "n_zero_value": 26311,
+  "n_airdrop_senders": 80,
+  "n_airdrop_transfers": 549598,
+  "airdrop_volume": 787.5171999952063,
+  "n_clean": 657585,
+  "active_clean": 132059,
+  "active_without_airdrop_rule": 630470,
+  "active_without_zero_rule": 143734,
+  "sensitivity": [
+    {
+      "N": 100,
+      "max_amt": 0.01,
+      "senders": 96,
+      "transfers": 568054,
+      "active_clean": 130569
+    },
+    {
+      "N": 500,
+      "max_amt": 0.01,
+      "senders": 82,
+      "transfers": 551164,
+      "active_clean": 130625
+    },
+    {
+      "N": 1000,
+      "max_amt": 0.01,
+      "senders": 80,
+      "transfers": 549598,
+      "active_clean": 132059
+    },
+    {
+      "N": 1000,
+      "max_amt": 0.1,
+      "senders": 80,
+      "transfers": 549598,
+      "active_clean": 132059
+    }
+  ],
+  "extra_senders_lowest_N": {
+    "n": 16,
+    "n_weeks": 13,
+    "n_transfers": 18456,
+    "max_week_share": 0.13003901170351106
+  },
+  "weekly": [
+    {
+      "week": 0,
+      "n_tx_raw": 51766,
+      "n_addr_raw": 17070,
+      "n_tx_clean": 48915,
+      "n_addr_clean": 15729
+    },
+    {
+      "week": 1,
+      "n_tx_raw": 45761,
+      "n_addr_raw": 15325,
+      "n_tx_clean": 43779,
+      "n_addr_clean": 14202
+    },
+    {
+      "week": 2,
+      "n_tx_raw": 49690,
+      "n_addr_raw": 15446,
+      "n_tx_clean": 48034,
+      "n_addr_clean": 14524
+    },
+    {
+      "week": 3,
+      "n_tx_raw": 47148,
+      "n_addr_raw": 14471,
+      "n_tx_clean": 45984,
+      "n_addr_clean": 13779
+    },
+    {
+      "week": 4,
+      "n_tx_raw": 34519,
+      "n_addr_raw": 13256,
+      "n_tx_clean": 33390,
+      "n_addr_clean": 12428
+    },
+    {
+      "week": 5,
+      "n_tx_raw": 45961,
+      "n_addr_raw": 16204,
+      "n_tx_clean": 43965,
+      "n_addr_clean": 14800
+    },
+    {
+      "week": 6,
+      "n_tx_raw": 610227,
+      "n_addr_raw": 550233,
+      "n_tx_clean": 58948,
+      "n_addr_clean": 18716
+    },
+    {
+      "week": 7,
+      "n_tx_raw": 51282,
+      "n_addr_raw": 16055,
+      "n_tx_clean": 49413,
+      "n_addr_clean": 14906
+    },
+    {
+      "week": 8,
+      "n_tx_raw": 55517,
+      "n_addr_raw": 15720,
+      "n_tx_clean": 53622,
+      "n_addr_clean": 14659
+    },
+    {
+      "week": 9,
+      "n_tx_raw": 63931,
+      "n_addr_raw": 18181,
+      "n_tx_clean": 61563,
+      "n_addr_clean": 16912
+    },
+    {
+      "week": 10,
+      "n_tx_raw": 71545,
+      "n_addr_raw": 21178,
+      "n_tx_clean": 69778,
+      "n_addr_clean": 20089
+    },
+    {
+      "week": 11,
+      "n_tx_raw": 52723,
+      "n_addr_raw": 16799,
+      "n_tx_clean": 50017,
+      "n_addr_clean": 15425
+    },
+    {
+      "week": 12,
+      "n_tx_raw": 53424,
+      "n_addr_raw": 19438,
+      "n_tx_clean": 50177,
+      "n_addr_clean": 17395
+    }
+  ],
+  "outlier_windows_raw": [
+    6
+  ],
+  "outlier_windows_clean": [],
+  "airdrop_only_holders": {
+    "n_addresses": 498411,
+    "n_holders": 498411,
+    "median_balance": 17.791639444670334,
+    "n_below_dust_floor": 111
+  },
+  "archived_38_hit": 38,
+  "archived_38_missed": [],
+  "archived_funders_hit": 0,
+  "senders_not_in_archive": 42,
+  "archived_38_exact_transfers": 380000,
+  "archived_38_exact_small_transfers": 380000
+}
